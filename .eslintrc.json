@@ -1,3 +1,50 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+		"next/core-web-vitals",
+    "plugin:react/recommended",
+    "eslint:recommended",
+		"plugin:@typescript-eslint/recommended"
+	],
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
+	"rules": {
+    "array-bracket-spacing": ["error", "never"],
+    "arrow-parens": "error",
+    "arrow-spacing": "error",
+    "brace-style": "off",
+    "comma-dangle": "off",
+    "comma-spacing": "off",
+    "computed-property-spacing": "error",
+    "eol-last": "error",
+    "jsx-quotes": ["error", "prefer-single"],
+    "key-spacing": "error",
+    "keyword-spacing": "off",
+    "no-extra-semi": "off",
+    "no-trailing-spaces": "error",
+    "no-unused-vars": "off",
+    "no-var": "error",
+    "object-curly-spacing": "off",
+    "space-in-parens": "error",
+    "quote-props": ["error", "as-needed"],
+    "quotes": [2, "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
+    "react/jsx-sort-props": "error",
+    "react/jsx-uses-react": "off",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "semi": "off",
+    "template-curly-spacing": "error",
+    "@typescript-eslint/array-type": ["error", { "default": "array" }],
+    "@typescript-eslint/brace-style": "error",
+    "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+    "@typescript-eslint/comma-spacing": ["error", { "before": false, "after": true }],
+    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/keyword-spacing": "error",
+    "@typescript-eslint/no-extra-semi": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/semi": "error",
+    "@typescript-eslint/type-annotation-spacing": "error"
+	}
 }
