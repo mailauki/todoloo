@@ -1,40 +1,20 @@
 'use client';
 import React from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { Avatar, Button, Stack } from '@mui/material';
+import { IconButton, Paper, Stack } from '@mui/material';
+import AvatarButton from './avatar-button';
 
 export default function AvatarForm({
   uid,
   url,
-  size,
   onUpload,
 }: {
   uid: string | null
   url: string | null
-  size: number
   onUpload: (url: string) => void
 }) {
   const supabase = createClient();
-  const [avatarUrl, setAvatarUrl] = React.useState<string | null>(url);
   const [uploading, setUploading] = React.useState(false);
-
-  React.useEffect(() => {
-    async function downloadImage(path: string) {
-      try {
-        const { data, error } = await supabase.storage.from('avatars').download(path);
-        if (error) {
-          throw error;
-        }
-
-        const url = URL.createObjectURL(data);
-        setAvatarUrl(url);
-      } catch (error) {
-        console.log('Error downloading image: ', error);
-      }
-    }
-
-    if (url) downloadImage(url);
-  }, [url, supabase]);
 
   const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
     try {
@@ -63,16 +43,15 @@ export default function AvatarForm({
   };
 
   return (
-    <Stack spacing={1}>
-      {avatarUrl && (
-				<Avatar
-					alt='Avatar'
-					src={avatarUrl}
-					sx={{ height: size, width: size }}
-				/>
-      )}
-      <div style={{ width: size }}>
-        <input
+    <Stack>
+			<Paper
+				elevation={0}
+				sx={{
+					width: 'fit-content',
+					borderRadius: '50%',
+				}}
+			>
+				<input
           accept='image/*'
           disabled={uploading}
           id='single'
@@ -83,15 +62,15 @@ export default function AvatarForm({
           }}
           type='file'
         />
-				<Button
+				<IconButton
 					component='label'
-					fullWidth
+					disabled={uploading}
 					htmlFor='single'
-					variant='outlined'
+					sx={{ p: 0.5 }}
 				>
-					{uploading ? 'Uploading ...' : 'Upload Avatar'}
-				</Button>
-      </div>
+					<AvatarButton url={url} />
+				</IconButton>
+			</Paper>
     </Stack>
   );
 }

@@ -1,15 +1,19 @@
 'use client';
 import * as React from 'react';
-import { Avatar, Badge, Dialog, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Paper, Stack, Typography } from '@mui/material';
-import { Edit, Logout, Mail } from '@mui/icons-material';
+import { Dialog, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Paper, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Close, Logout, Mail } from '@mui/icons-material';
 import AccountForm from './account-form';
 import { createClient } from '@/utils/supabase/client';
 import type { User } from '@supabase/supabase-js';
+import AvatarButton from './avatar-button';
 
 export default function Profile({ user }: { user: User | null }) {
   const supabase = createClient();
   const [username, setUsername] = React.useState<string | null>(null);
+  const [avatar_url, setAvatarUrl] = React.useState<string | null>(null);
 	const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const handleClickOpen = () => {
     setOpen(true);
@@ -36,6 +40,7 @@ export default function Profile({ user }: { user: User | null }) {
 
       if (data) {
         setUsername(data.username);
+        setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
       alert('Error loading user data!');
@@ -67,34 +72,7 @@ export default function Profile({ user }: { user: User | null }) {
 							onClick={handleClickOpen}
 							sx={{ p: 0.5 }}
 						>
-							<Badge
-								anchorOrigin={{
-									vertical: 'bottom',
-									horizontal: 'right',
-								}}
-								badgeContent={
-									<Edit fontSize='small' />
-								}
-								color='primary'
-								overlap='circular'
-								sx={{
-									span: {
-										borderRadius: 8,
-										width: 30,
-										height: 30,
-										display: 'none',
-									},
-									'&:hover': {
-										span: {
-											display: 'inherit',
-										},
-									},
-								}}
-							>
-							<Avatar
-								sx={{ width: 100, height: 100 }}
-							/>
-							</Badge>
+							<AvatarButton url={avatar_url} />
 						</IconButton>
 					</Paper>
 				</Stack>
@@ -136,18 +114,27 @@ export default function Profile({ user }: { user: User | null }) {
 			</Stack>
 
 			<Dialog
+        fullScreen={fullScreen}
 				fullWidth
 				maxWidth='xs'
 				onClose={handleClose}
 				open={open}
 			>
 				<DialogTitle>Edit Account</DialogTitle>
+				<IconButton
+          aria-label='close'
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <Close />
+        </IconButton>
 				<DialogContent>
-					<AccountForm
-						user={user}
-						// loading={loading}
-						// profile={fullname, username, avatar_url}
-					/>
+					<AccountForm user={user} />
 				</DialogContent>
 			</Dialog>
 		</>

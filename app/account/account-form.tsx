@@ -9,15 +9,8 @@ export default function AccountForm({
   user,
 }: {
 	user: User | null,
-	// loading: string | null,
-	// profile: {
-	// 	fullname: string | null,
-	// 	username: string | null,
-	// 	avatar_url: string | null,
-	// },
 }) {
   const supabase = createClient();
-	// const {fullname, username, avatar_url} = profile;
   const [loading, setLoading] = React.useState(true);
   const [fullname, setFullname] = React.useState<string | null>(null);
   const [username, setUsername] = React.useState<string | null>(null);
@@ -93,7 +86,6 @@ export default function AccountForm({
 						setAvatarUrl(url);
 						updateProfile({ fullname, username, avatar_url: url });
 					}}
-					size={150}
 					uid={user?.id ?? null}
 					url={avatar_url}
 				/>

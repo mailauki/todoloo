@@ -1,7 +1,5 @@
 'use client';
-
 import * as React from 'react';
-
 import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 import { Check, Person } from '@mui/icons-material';
 import { usePathname } from 'next/navigation';
@@ -21,8 +19,13 @@ export default function BottomNav() {
 		<Paper
 			elevation={3}
 			square
-			sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}
-			// variant='outlined'
+			sx={{
+				position: 'fixed',
+				bottom: 0,
+				left: 0,
+				right: 0,
+				zIndex: (theme) => theme.zIndex.appBar,
+			}}
 		>
 			<BottomNavigation
 				showLabels

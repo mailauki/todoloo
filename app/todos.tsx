@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 // import { cookies } from 'next/headers';
 import type { Session } from '@supabase/supabase-js';
-import { AppBar, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Toolbar } from '@mui/material';
+import { AppBar, Container, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Toolbar } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
 import type { Todo } from '@/utils/types';
 
@@ -59,49 +59,8 @@ export default function Todos({ session }: { session: Session }) {
 
 	return (
 		<>
-			<AppBar
-				color='inherit'
-				component='form'
-				elevation={0}
-        onSubmit={(event) => {
-          event.preventDefault();
-          addTodo(newTaskText);
-        }}
-				position='sticky'
-				square
-				sx={{
-					width: '100%',
-					top: 64,
-					zIndex: (theme) => theme.zIndex.appBar - 1,
-					pt: 2,
-					mt: -2,
-				}}
-			>
-				{/* <Toolbar /> */}
-				<Toolbar disableGutters >
-					<TextField
-						InputProps={{
-							endAdornment: <InputAdornment position='end'>
-								<IconButton size='small' type='submit'>
-									<Add fontSize='small' />
-								</IconButton>
-							</InputAdornment>,
-						}}
-						fullWidth
-						label='Add New Todo'
-						margin='normal'
-						onChange={(e) => {
-							setNewTaskText(e.target.value);
-						}}
-						size='small'
-						type='text'
-						value={newTaskText}
-					/>
-				</Toolbar>
-			</AppBar>
-
 			<List sx={{ width: '100%' }}>
-				{[...todos]?.reverse().map((todo) => (
+				{todos?.map((todo) => (
 					<ListItem
 					key={todo.id}
 					secondaryAction={
@@ -118,6 +77,49 @@ export default function Todos({ session }: { session: Session }) {
 					</ListItem>
 				))}
 			</List>
+
+			<AppBar
+				color='inherit'
+				component='form'
+				elevation={0}
+        onSubmit={(event) => {
+          event.preventDefault();
+          addTodo(newTaskText);
+        }}
+				position='fixed'
+				square
+				sx={{
+					width: '100%',
+					top: 'auto',
+					bottom: 64,
+					zIndex: (theme) => theme.zIndex.appBar - 1,
+					pb: 2,
+					mb: -2,
+				}}
+			>
+				<Toolbar disableGutters sx={{ justifyContent: 'center', alignItems: 'center' }}>
+					<Container maxWidth='xs'>
+						<TextField
+							InputProps={{
+								endAdornment: <InputAdornment position='end'>
+									<IconButton size='small' type='submit'>
+										<Add fontSize='small' />
+									</IconButton>
+								</InputAdornment>,
+							}}
+							fullWidth
+							label='Add New Todo'
+							margin='normal'
+							onChange={(e) => {
+								setNewTaskText(e.target.value);
+							}}
+							size='small'
+							type='text'
+							value={newTaskText}
+						/>
+					</Container>
+				</Toolbar>
+			</AppBar>
 		</>
 	);
 }
