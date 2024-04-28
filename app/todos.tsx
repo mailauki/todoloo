@@ -4,21 +4,13 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 // import { cookies } from 'next/headers';
 import type { Session } from '@supabase/supabase-js';
-import type { UUID } from 'crypto';
-import { Button, IconButton, List, ListItem, ListItemText, Stack, TextField } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-
-interface Todo {
-	id: number,
-	user_id: UUID,
-	task: string,
-	created_at: Date,
-}
+import { AppBar, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Toolbar } from '@mui/material';
+import { Add, Delete } from '@mui/icons-material';
+import type { Todo } from '@/utils/types';
 
 export default function Todos({ session }: { session: Session }) {
   // const cookieStore = cookies();
   const supabase = createClient();
-  // const { data: todos } = await supabase.from('todos').select();
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTaskText, setNewTaskText] = useState('');
 
@@ -67,16 +59,31 @@ export default function Todos({ session }: { session: Session }) {
 
 	return (
 		<>
-			<Stack
+			<AppBar
+				color='inherit'
 				component='form'
-				direction='column'
+				elevation={0}
         onSubmit={(e) => {
           e.preventDefault();
           addTodo(newTaskText);
         }}
-				sx={{ width: '100%' }}
+				position='sticky'
+				square
+				sx={{
+					width: '100%',
+					top: 0,
+					zIndex: (theme) => theme.zIndex.appBar - 1,
+				}}
 			>
+				<Toolbar />
 				<TextField
+					InputProps={{
+						endAdornment: <InputAdornment position='end'>
+							<IconButton size='small' type='submit'>
+								<Add fontSize='small' />
+							</IconButton>
+						</InputAdornment>,
+					}}
 					fullWidth
 					label='Add New Todo'
           margin='normal'
@@ -87,16 +94,10 @@ export default function Todos({ session }: { session: Session }) {
           type='text'
 					value={newTaskText}
 				/>
-				<Button
-					fullWidth
-					type='submit'
-					variant='outlined'
-				>
-          Add
-        </Button>
-			</Stack>
+			</AppBar>
+
 			<List sx={{ width: '100%' }}>
-				{todos?.map((todo) => (
+				{[...todos]?.reverse().map((todo) => (
 					<ListItem
 					key={todo.id}
 					secondaryAction={
@@ -105,7 +106,7 @@ export default function Todos({ session }: { session: Session }) {
 							edge='end'
 							onClick={() => deleteTodo(todo.id)}
 						>
-							<DeleteIcon />
+							<Delete />
 						</IconButton>
 					}
 					>
