@@ -83,6 +83,7 @@ export default function Todos({ session }: { session: Session }) {
           onChange={(e) => {
             setNewTaskText(e.target.value);
           }}
+					size='small'
           type='text'
 					value={newTaskText}
 				/>

@@ -1,4 +1,4 @@
-import styles from './page.module.css';
+// import styles from './page.module.css';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import Todos from './todos';
@@ -12,7 +12,7 @@ export default async function Home() {
 
   return (
     <Container
-			className={styles.main}
+			// className={styles.main}
 			component='main'
 			maxWidth='xs'
 		>

@@ -1,6 +1,8 @@
+import Theme from '@/utils/theme';
+import { Paper } from '@mui/material';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
+// import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,7 +18,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>{children}</body>
+			<Theme>
+				<Paper
+					className={inter.className}
+					component='body'
+					elevation={0}
+					square
+					sx={{
+						m: 0,
+						height: '100vh',
+					}}
+				>
+					{children}
+				</Paper>
+			</Theme>
     </html>
   );
 }
