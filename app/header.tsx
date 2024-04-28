@@ -1,38 +1,48 @@
-import { Logout } from '@mui/icons-material';
-import { AppBar, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
+// import { Login, Logout } from '@mui/icons-material';
+import { AppBar, Link as Anchor, Toolbar } from '@mui/material';
+// import type { Session } from '@supabase/supabase-js';
+import Link from 'next/link';
 
-export default function Header() {
+export default function Header(/* { session }: { session: Session | null } */) {
 	return (
 		<AppBar
-			color='default'
-			elevation={1}
+			color='inherit'
+			elevation={3}
 			variant='outlined'
 		>
 			<Toolbar
 				sx={{
 					display: 'flex',
+					// justifyContent: 'space-between',
 					justifyContent: 'center',
 					alignItems: 'center',
 				}}
 			>
-				<Typography variant='h5'>
+				<Anchor
+					color='inherit'
+					component={Link}
+					href='/'
+					underline='none'
+					variant='h5'
+				>
 					ToDoLoo
-				</Typography>
-			</Toolbar>
-			<Toolbar
-				sx={{
-					display: 'flex',
-					justifyContent: 'flex-end',
-					alignItems: 'center',
-					position: 'absolute',
-					width: 'calc(100% - 48px)',
-				}}
-			>
-				<Tooltip title='Signout'>
-					<IconButton>
-						<Logout />
-					</IconButton>
-				</Tooltip>
+				</Anchor>
+
+				{/* {!session ? (
+					<Tooltip title='Login'>
+						<IconButton component={Link} href='/login'>
+							<Login />
+						</IconButton>
+					</Tooltip>
+				) : (
+					<form action='/auth/signout' method='post'>
+						<Tooltip title='Signout'>
+							<IconButton type='submit'>
+								<Logout />
+							</IconButton>
+						</Tooltip>
+					</form>
+				)} */}
 			</Toolbar>
 		</AppBar>
 	);

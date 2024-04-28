@@ -2,7 +2,8 @@
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import Todos from './todos';
-import { Container } from '@mui/material';
+import { Button } from '@mui/material';
+import Main from './components/main';
 
 export default async function Home() {
 	const supabase = createClient();
@@ -11,16 +12,22 @@ export default async function Home() {
   const { data, error } = await supabase.auth.getSession();
 
   return (
-    <Container
-			// className={styles.main}
-			component='main'
-			maxWidth='xs'
-		>
+    <Main>
 			{error || !data?.session ? (
-				<Link href='/login'>Login</Link>
+				<>
+					<Button
+						component={Link}
+						fullWidth
+						href='/login'
+						size='large'
+						variant='contained'
+					>
+						Login
+					</Button>
+				</>
 			) : (
 				<Todos session={data?.session} />
 			)}
-    </Container>
+    </Main>
   );
 }

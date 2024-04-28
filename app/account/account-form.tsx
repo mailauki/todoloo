@@ -1,23 +1,35 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import * as React from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { type User } from '@supabase/supabase-js';
+import { Button, Stack, TextField } from '@mui/material';
+import AvatarForm from './avatar-form';
 
-export default function AccountForm({ user }: { user: User | null }) {
+export default function AccountForm({
+  user,
+}: {
+	user: User | null,
+	// loading: string | null,
+	// profile: {
+	// 	fullname: string | null,
+	// 	username: string | null,
+	// 	avatar_url: string | null,
+	// },
+}) {
   const supabase = createClient();
-  const [loading, setLoading] = useState(true);
-  const [fullname, setFullname] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const [website, setWebsite] = useState<string | null>(null);
-  const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+	// const {fullname, username, avatar_url} = profile;
+  const [loading, setLoading] = React.useState(true);
+  const [fullname, setFullname] = React.useState<string | null>(null);
+  const [username, setUsername] = React.useState<string | null>(null);
+  const [avatar_url, setAvatarUrl] = React.useState<string | null>(null);
 
-  const getProfile = useCallback(async () => {
+  const getProfile = React.useCallback(async () => {
     try {
       setLoading(true);
 
       const { data, error, status } = await supabase
         .from('profiles')
-        .select(`full_name, username, website, avatar_url`)
+        .select(`full_name, username, avatar_url`)
         .eq('id', user?.id)
         .single();
 
@@ -29,7 +41,6 @@ export default function AccountForm({ user }: { user: User | null }) {
       if (data) {
         setFullname(data.full_name);
         setUsername(data.username);
-        setWebsite(data.website);
         setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
@@ -39,18 +50,16 @@ export default function AccountForm({ user }: { user: User | null }) {
     }
   }, [user, supabase]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     getProfile();
   }, [user, getProfile]);
 
   async function updateProfile({
     username,
-    website,
     avatar_url,
   }: {
     username: string | null
     fullname: string | null
-    website: string | null
     avatar_url: string | null
   }) {
     try {
@@ -60,7 +69,6 @@ export default function AccountForm({ user }: { user: User | null }) {
         id: user?.id as string,
         full_name: fullname,
         username,
-        website,
         avatar_url,
         updated_at: new Date().toISOString(),
       });
@@ -74,56 +82,49 @@ export default function AccountForm({ user }: { user: User | null }) {
   }
 
   return (
-    <div className='form-widget'>
-      <div>
-        <label htmlFor='email'>Email</label>
-        <input disabled id='email' type='text' value={user?.email} />
-      </div>
-      <div>
-        <label htmlFor='fullName'>Full Name</label>
-        <input
-          id='fullName'
-          onChange={(e) => setFullname(e.target.value)}
-          type='text'
-          value={fullname || ''}
-        />
-      </div>
-      <div>
-        <label htmlFor='username'>Username</label>
-        <input
-          id='username'
-          onChange={(e) => setUsername(e.target.value)}
-          type='text'
-          value={username || ''}
-        />
-      </div>
-      <div>
-        <label htmlFor='website'>Website</label>
-        <input
-          id='website'
-          onChange={(e) => setWebsite(e.target.value)}
-          type='url'
-          value={website || ''}
-        />
-      </div>
+		<>
+			<Stack
+				// component='form'
+				alignItems='center'
+				spacing={2}
+			>
+				<AvatarForm
+					onUpload={(url) => {
+						setAvatarUrl(url);
+						updateProfile({ fullname, username, avatar_url: url });
+					}}
+					size={150}
+					uid={user?.id ?? null}
+					url={avatar_url}
+				/>
 
-      <div>
-        <button
-          className='button primary block'
-          disabled={loading}
-          onClick={() => updateProfile({ fullname, username, website, avatar_url })}
-        >
-          {loading ? 'Loading ...' : 'Update'}
-        </button>
-      </div>
+				<TextField
+					fullWidth
+					id='fullName'
+					label='Name'
+					onChange={(e) => setFullname(e.target.value)}
+					type='text'
+					value={fullname || ''}
+				/>
+				<TextField
+					fullWidth
+					id='username'
+					label='Username'
+					onChange={(e) => setUsername(e.target.value)}
+					type='text'
+					value={username || ''}
+				/>
 
-      <div>
-        <form action='/auth/signout' method='post'>
-          <button className='button block' type='submit'>
-            Sign out
-          </button>
-        </form>
-      </div>
-    </div>
+				<Button
+					disabled={loading}
+					fullWidth
+					onClick={() => updateProfile({ fullname, username, avatar_url })}
+					size='large'
+					variant='contained'
+				>
+					{loading ? 'Loading ...' : 'Update'}
+				</Button>
+			</Stack>
+		</>
   );
 }

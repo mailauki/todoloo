@@ -63,37 +63,41 @@ export default function Todos({ session }: { session: Session }) {
 				color='inherit'
 				component='form'
 				elevation={0}
-        onSubmit={(e) => {
-          e.preventDefault();
+        onSubmit={(event) => {
+          event.preventDefault();
           addTodo(newTaskText);
         }}
 				position='sticky'
 				square
 				sx={{
 					width: '100%',
-					top: 0,
+					top: 64,
 					zIndex: (theme) => theme.zIndex.appBar - 1,
+					pt: 2,
+					mt: -2,
 				}}
 			>
-				<Toolbar />
-				<TextField
-					InputProps={{
-						endAdornment: <InputAdornment position='end'>
-							<IconButton size='small' type='submit'>
-								<Add fontSize='small' />
-							</IconButton>
-						</InputAdornment>,
-					}}
-					fullWidth
-					label='Add New Todo'
-          margin='normal'
-          onChange={(e) => {
-            setNewTaskText(e.target.value);
-          }}
-					size='small'
-          type='text'
-					value={newTaskText}
-				/>
+				{/* <Toolbar /> */}
+				<Toolbar disableGutters >
+					<TextField
+						InputProps={{
+							endAdornment: <InputAdornment position='end'>
+								<IconButton size='small' type='submit'>
+									<Add fontSize='small' />
+								</IconButton>
+							</InputAdornment>,
+						}}
+						fullWidth
+						label='Add New Todo'
+						margin='normal'
+						onChange={(e) => {
+							setNewTaskText(e.target.value);
+						}}
+						size='small'
+						type='text'
+						value={newTaskText}
+					/>
+				</Toolbar>
 			</AppBar>
 
 			<List sx={{ width: '100%' }}>
