@@ -5,6 +5,8 @@ import { createClient } from '@/utils/supabase/client';
 // import { cookies } from 'next/headers';
 import type { Session } from '@supabase/supabase-js';
 import type { UUID } from 'crypto';
+import { Button, IconButton, List, ListItem, ListItemText, Stack, TextField } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface Todo {
 	id: number,
@@ -54,30 +56,62 @@ export default function Todos({ session }: { session: Session }) {
     }
   };
 
+	const deleteTodo = async (id: number) => {
+    try {
+      await supabase.from('todos').delete().match({ id: id, user_id: user.id }).throwOnError();
+      setTodos(todos.filter((x) => x.id != id));
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
 	return (
 		<>
-			<form
+			<Stack
+				component='form'
+				direction='column'
         onSubmit={(e) => {
           e.preventDefault();
           addTodo(newTaskText);
         }}
+				sx={{ width: '100%' }}
 			>
-				<input
+				<TextField
+					fullWidth
+					label='Add New Todo'
+          margin='normal'
           onChange={(e) => {
             setNewTaskText(e.target.value);
           }}
           type='text'
-          value={newTaskText}
+					value={newTaskText}
 				/>
-				<button type='submit'>
+				<Button
+					fullWidth
+					type='submit'
+					variant='outlined'
+				>
           Add
-        </button>
-			</form>
-			<ul>
+        </Button>
+			</Stack>
+			<List sx={{ width: '100%' }}>
 				{todos?.map((todo) => (
-					<li key={todo.id}>{todo.task}</li>
+					<ListItem
+					key={todo.id}
+					secondaryAction={
+						<IconButton
+							aria-label='delete'
+							edge='end'
+							onClick={() => deleteTodo(todo.id)}
+						>
+							<DeleteIcon />
+						</IconButton>
+					}
+					>
+						<ListItemText primary={todo.task} />
+					</ListItem>
 				))}
-			</ul>
+			</List>
 		</>
 	);
 }
