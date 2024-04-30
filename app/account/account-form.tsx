@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/client';
 import { type User } from '@supabase/supabase-js';
 import { Button, Stack, TextField } from '@mui/material';
 import AvatarForm from './avatar-form';
+import ColorPicker from '../components/color-picker';
 
 export default function AccountForm({
   user,
@@ -15,6 +16,7 @@ export default function AccountForm({
   const [fullname, setFullname] = React.useState<string | null>(null);
   const [username, setUsername] = React.useState<string | null>(null);
   const [avatar_url, setAvatarUrl] = React.useState<string | null>(null);
+  const [color, setColor] = React.useState<string | null>(null);
 
   const getProfile = React.useCallback(async () => {
     try {
@@ -22,7 +24,7 @@ export default function AccountForm({
 
       const { data, error, status } = await supabase
         .from('profiles')
-        .select(`full_name, username, avatar_url`)
+        .select(`full_name, username, avatar_url, color`)
         .eq('id', user?.id)
         .single();
 
@@ -35,6 +37,7 @@ export default function AccountForm({
         setFullname(data.full_name);
         setUsername(data.username);
         setAvatarUrl(data.avatar_url);
+        setColor(data.color);
       }
     } catch (error) {
       alert('Error loading user data!');
@@ -50,10 +53,12 @@ export default function AccountForm({
   async function updateProfile({
     username,
     avatar_url,
+    color,
   }: {
     username: string | null
     fullname: string | null
     avatar_url: string | null
+    color: string | null
   }) {
     try {
       setLoading(true);
@@ -63,6 +68,7 @@ export default function AccountForm({
         full_name: fullname,
         username,
         avatar_url,
+				color,
         updated_at: new Date().toISOString(),
       });
       if (error) throw error;
@@ -84,10 +90,19 @@ export default function AccountForm({
 				<AvatarForm
 					onUpload={(url) => {
 						setAvatarUrl(url);
-						updateProfile({ fullname, username, avatar_url: url });
+						updateProfile({ fullname, username, avatar_url: url, color });
 					}}
 					uid={user?.id ?? null}
 					url={avatar_url}
+				/>
+
+				<ColorPicker
+					color={color}
+					onColorChange={(color_code) => {
+						console.log(color_code);
+						setColor(color_code);
+						updateProfile({ fullname, username, avatar_url, color: color_code });
+					}}
 				/>
 
 				<TextField
@@ -110,7 +125,7 @@ export default function AccountForm({
 				<Button
 					disabled={loading}
 					fullWidth
-					onClick={() => updateProfile({ fullname, username, avatar_url })}
+					onClick={() => updateProfile({ fullname, username, avatar_url, color })}
 					size='large'
 					variant='contained'
 				>

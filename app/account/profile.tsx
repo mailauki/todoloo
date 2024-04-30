@@ -6,11 +6,13 @@ import AccountForm from './account-form';
 import { createClient } from '@/utils/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import AvatarButton from './avatar-button';
+import Main from '../components/main';
 
 export default function Profile({ user }: { user: User | null }) {
   const supabase = createClient();
   const [username, setUsername] = React.useState<string | null>(null);
   const [avatar_url, setAvatarUrl] = React.useState<string | null>(null);
+  // const [color, setColor] = React.useState<string | null>(null);
 	const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -29,7 +31,7 @@ export default function Profile({ user }: { user: User | null }) {
 
       const { data, error, status } = await supabase
         .from('profiles')
-        .select(`full_name, username, avatar_url`)
+        .select(`full_name, username, avatar_url, color`)
         .eq('id', user?.id)
         .single();
 
@@ -41,6 +43,7 @@ export default function Profile({ user }: { user: User | null }) {
       if (data) {
         setUsername(data.username);
         setAvatarUrl(data.avatar_url);
+        // setColor(data.color);
       }
     } catch (error) {
       alert('Error loading user data!');
@@ -55,63 +58,65 @@ export default function Profile({ user }: { user: User | null }) {
 
 	return (
 		<>
-			<Stack spacing={2}>
-				<Stack
-					alignItems='center'
-					direction='row'
-					justifyContent='center'
-				>
-					<Paper
-						elevation={0}
-						sx={{
-							width: 'fit-content',
-							borderRadius: '50%',
-						}}
+			<Main>
+				<Stack spacing={2}>
+					<Stack
+						alignItems='center'
+						direction='row'
+						justifyContent='center'
 					>
-						<IconButton
-							onClick={handleClickOpen}
-							sx={{ p: 0.5 }}
+						<Paper
+							elevation={0}
+							sx={{
+								width: 'fit-content',
+								borderRadius: '50%',
+							}}
 						>
-							<AvatarButton url={avatar_url} />
-						</IconButton>
-					</Paper>
-				</Stack>
-
-				<List
-					subheader={
-					<ListSubheader>Hi, <span style={{ fontWeight: 600 }}>{username! || user?.email}</span>!</ListSubheader>
-				}
-				>
-					<ListItem
-						secondaryAction={
-							<Typography
-								color='text.secondary'
-								variant='subtitle2'
+							<IconButton
+								onClick={handleClickOpen}
+								sx={{ p: 0.5 }}
 							>
-								{user?.email}
-							</Typography>
-						}
+								<AvatarButton url={avatar_url} />
+							</IconButton>
+						</Paper>
+					</Stack>
+
+					<List
+						subheader={
+						<ListSubheader>Hi, <span style={{ fontWeight: 600 }}>{username! || user?.email}</span>!</ListSubheader>
+					}
 					>
-						<ListItemIcon>
-							<Mail />
-						</ListItemIcon>
-						<ListItemText primary='Email' />
-					</ListItem>
-					<ListItem
-						action='/auth/signout'
-						component='form'
-						disableGutters
-						method='post'
-					>
-						<ListItemButton component='button' type='submit'>
+						<ListItem
+							secondaryAction={
+								<Typography
+									color='text.secondary'
+									variant='subtitle2'
+								>
+									{user?.email}
+								</Typography>
+							}
+						>
 							<ListItemIcon>
-								<Logout />
+								<Mail />
 							</ListItemIcon>
-							<ListItemText primary='Signout' />
-						</ListItemButton>
-					</ListItem>
-				</List>
-			</Stack>
+							<ListItemText primary='Email' />
+						</ListItem>
+						<ListItem
+							action='/auth/signout'
+							component='form'
+							disableGutters
+							method='post'
+						>
+							<ListItemButton component='button' type='submit'>
+								<ListItemIcon>
+									<Logout />
+								</ListItemIcon>
+								<ListItemText primary='Signout' />
+							</ListItemButton>
+						</ListItem>
+					</List>
+				</Stack>
+			</Main>
 
 			<Dialog
         fullScreen={fullScreen}

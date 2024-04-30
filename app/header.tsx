@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Header() {
 	return (
 		<AppBar
-			color='inherit'
+			// color='inherit'
 			elevation={3}
 			variant='outlined'
 		>

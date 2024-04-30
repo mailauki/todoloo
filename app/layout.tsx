@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 import Header from './header';
 import BottomNav from './bottom-nav';
 import { createClient } from '@/utils/supabase/server';
+import Background from './components/background';
 // import { cookies } from 'next/headers';
 // import './globals.css';
 
@@ -39,6 +40,7 @@ export default async function RootLayout({
 					}}
 				>
 					<Header />
+					<Background />
 					{children}
 					{data?.session && <BottomNav />}
 				</Paper>

@@ -11,7 +11,7 @@ export default async function Home() {
   const { data, error } = await supabase.auth.getSession();
 
   return (
-    <Main>
+		<Main>
 			{error || !data?.session ? (
 				<>
 					<Button
@@ -27,6 +27,6 @@ export default async function Home() {
 			) : (
 				<Todos session={data?.session} />
 			)}
-    </Main>
+		</Main>
   );
 }
