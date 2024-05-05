@@ -72,6 +72,7 @@ export default function BottomNav() {
 				<StyledFab
 					aria-label='add todo'
 					color='primary'
+					sx={{ display: value === '/' ? 'inline-flex': 'none' }}
 					// onClick={() => setOpen(true)}
 				>
 					<Add />

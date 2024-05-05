@@ -1,7 +1,8 @@
+'use client';
 import * as React from 'react';
 import type { Todo } from '@/utils/types';
 import { Delete } from '@mui/icons-material';
-import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, alpha } from '@mui/material';
 import { createClient } from '@/utils/supabase/client';
 
 export default function ToDo({serverTodo}: {serverTodo: Todo}) {
@@ -35,7 +36,8 @@ export default function ToDo({serverTodo}: {serverTodo: Todo}) {
   };
 
 	return (
-		<ListItem
+		<Paper
+			component={ListItem}
 			secondaryAction={
 				<IconButton
 					aria-label='delete'
@@ -44,6 +46,13 @@ export default function ToDo({serverTodo}: {serverTodo: Todo}) {
 					<Delete />
 				</IconButton>
 			}
+			sx={{
+				padding: 0,
+				marginBottom: 2,
+				overflow: 'hidden',
+				backgroundColor: (theme) => todo.is_complete ? alpha(theme.palette.background.paper, 0.2) : alpha(theme.palette.background.paper, 0.45),
+			}}
+			variant='outlined'
 		>
 			<ListItemButton dense onClick={() => toggleTodo(todo)} role={undefined}>
 				<ListItemIcon>
@@ -54,8 +63,14 @@ export default function ToDo({serverTodo}: {serverTodo: Todo}) {
 						tabIndex={-1}
 					/>
 				</ListItemIcon>
-				<ListItemText primary={todo.task} />
+				<ListItemText
+					primary={todo.task}
+					sx={{
+						textDecoration: todo.is_complete ? 'line-through' : 'none',
+						color: todo.is_complete ? 'text.disabled' : 'text.primary',
+					}}
+				/>
 			</ListItemButton>
-		</ListItem>
+		</Paper>
 	);
 }

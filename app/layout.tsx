@@ -37,7 +37,8 @@ export default async function RootLayout({
 					sx={{
 						m: 0,
 						height: '100vh',
-						backgroundColor: 'primary.extraLight',
+						// backgroundColor: 'primary.extraLight',
+						// backgroundColor: 'primary.light',
 					}}
 				>
 					<Header />
