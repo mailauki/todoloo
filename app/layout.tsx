@@ -37,11 +37,13 @@ export default async function RootLayout({
 					sx={{
 						m: 0,
 						height: '100vh',
+						backgroundColor: 'primary.extraLight',
 					}}
 				>
 					<Header />
-					<Background />
+					{/* <Background /> */}
 					{children}
+					<Background />
 					{data?.session && <BottomNav />}
 				</Paper>
 			</Theme>

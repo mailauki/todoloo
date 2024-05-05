@@ -49,6 +49,7 @@ export default function AvatarForm({
 				sx={{
 					width: 'fit-content',
 					borderRadius: '50%',
+					backgroundColor: (theme) => theme.palette.background.default,
 				}}
 			>
 				<input

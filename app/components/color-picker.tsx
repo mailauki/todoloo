@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Box, ButtonBase, FormControl, Radio, RadioGroup, Tooltip, styled } from '@mui/material';
-import { amber, blue, cyan, deepOrange, deepPurple, green, indigo, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow } from '@mui/material/colors';
+import { amber, blue, cyan, deepOrange, deepPurple, green, grey, indigo, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow } from '@mui/material/colors';
 import { Check } from '@mui/icons-material';
 
 const shade = 500;
@@ -15,7 +15,8 @@ const ColorButton = styled(ButtonBase)(({ theme }) => ({
 
 const ColorBox = styled(Box)(({ color }: { color: string }) => ({
 	backgroundColor: color,
-	height: 30, width: 30,
+	height: 30,
+	width: color === grey[shade] ? 126 : 30,
 }));
 
 export default function ColorPicker({
@@ -43,7 +44,7 @@ export default function ColorPicker({
 			<Tooltip placement='right' title={label}>
 				<ColorButton>
 					<Radio
-						checked={value === color}
+						checked={value === label}
 						checkedIcon={<Check />}
 						color='default'
 						disableRipple
@@ -52,7 +53,7 @@ export default function ColorPicker({
 						name='radio-buttons'
 						onChange={handleChange}
 						sx={{ position: 'absolute' }}
-						value={color}
+						value={label}
 					/>
 					<ColorBox color={color} />
 				</ColorButton>
@@ -69,7 +70,7 @@ export default function ColorPicker({
 					onChange={handleChange}
 					value={value}
 				>
-					<Box width={128}>
+					<Box width={128} >
 						<Color color={red[shade]} label='red' />
 						<Color color={pink[shade]} label='pink' />
 						<Color color={purple[shade]} label='purple' />
@@ -86,6 +87,7 @@ export default function ColorPicker({
 						<Color color={amber[shade]} label='amber' />
 						<Color color={orange[shade]} label='orange' />
 						<Color color={deepOrange[shade]} label='deep orange' />
+						<Color color={grey[shade]} label='grey' />
 					</Box>
 				</RadioGroup>
 			</FormControl>
