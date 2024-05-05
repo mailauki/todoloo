@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 // import { cookies } from 'next/headers';
 import type { Session } from '@supabase/supabase-js';
-import { AppBar, Container, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Toolbar } from '@mui/material';
-import { Add, Delete } from '@mui/icons-material';
+import { AppBar, Container, IconButton, InputAdornment, List, TextField, Toolbar } from '@mui/material';
+import { Add } from '@mui/icons-material';
 import type { Todo } from '@/utils/types';
+import ToDo from './[todos]/todo';
 
 export default function Todos({ session }: { session: Session }) {
   // const cookieStore = cookies();
@@ -48,33 +49,35 @@ export default function Todos({ session }: { session: Session }) {
     }
   };
 
-	const deleteTodo = async (id: number) => {
-    try {
-      await supabase.from('todos').delete().match({ id: id, user_id: user.id }).throwOnError();
-      setTodos(todos.filter((x) => x.id != id));
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
+	// const toggleTodo = async (todo: Todo) => {
+	// 	console.log({id: todo.id, is_complete: !todo.is_complete});
+	// 	// console.log(id);
+	// 	const { error } = await supabase
+	// 		.from('todos')
+	// 		.update({ is_complete: !todo.is_complete })
+	// 		// .match({ id: todo.id, user_id: user.id })
+	// 		.eq('id', todo.id);
+	// 		// .select();
+
+	// 	if (error) {
+	// 		console.log(error.message);
+	// 	}
+  // };
+
+	// const deleteTodo = async (id: number) => {
+  //   try {
+  //     await supabase.from('todos').delete().match({ id: id, user_id: user.id }).throwOnError();
+  //     setTodos(todos.filter((x) => x.id != id));
+  //   } catch (error) {
+  //     console.log('error', error);
+  //   }
+  // };
 
 	return (
 		<>
 			<List sx={{ width: '100%' }}>
 				{todos?.map((todo) => (
-					<ListItem
-					key={todo.id}
-					secondaryAction={
-						<IconButton
-							aria-label='delete'
-							edge='end'
-							onClick={() => deleteTodo(todo.id)}
-						>
-							<Delete />
-						</IconButton>
-					}
-					>
-						<ListItemText primary={todo.task} />
-					</ListItem>
+					<ToDo key={todo.id} serverTodo={todo} />
 				))}
 			</List>
 

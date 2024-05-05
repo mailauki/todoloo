@@ -1,9 +1,18 @@
 'use client';
 import * as React from 'react';
-import { BottomNavigation, BottomNavigationAction, Paper, Typography } from '@mui/material';
-import { Check, Person } from '@mui/icons-material';
+import { BottomNavigation, BottomNavigationAction, Fab, Paper, Typography, styled } from '@mui/material';
+import { Add, Check, Person } from '@mui/icons-material';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+
+const StyledFab = styled(Fab)({
+  position: 'absolute',
+  zIndex: 1,
+  top: -30,
+  left: 0,
+  right: 0,
+  margin: '0 auto',
+});
 
 export default function BottomNav() {
 	const pathname = usePathname();
@@ -60,6 +69,13 @@ export default function BottomNav() {
 					}
 					value='/'
 				/>
+				<StyledFab
+					aria-label='add todo'
+					color='primary'
+					// onClick={() => setOpen(true)}
+				>
+					<Add />
+				</StyledFab>
 				<BottomNavigationAction
 					component={Link}
 					href='/account'

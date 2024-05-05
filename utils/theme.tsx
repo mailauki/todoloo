@@ -28,8 +28,6 @@ export default function Theme({
   const [colorLabel, setColorLabel] = React.useState<string | null>(null);
   const [color, setColor] = React.useState<typeof red|typeof pink|typeof purple|typeof deepPurple|typeof indigo|typeof blue|typeof lightBlue|typeof cyan|typeof teal|typeof green|typeof lightGreen|typeof lime|typeof yellow|typeof amber|typeof orange|typeof deepOrange|typeof grey>(grey);
 
-	console.log(color);
-
 	React.useEffect(() => {
 		switch (colorLabel) {
 			case 'red':

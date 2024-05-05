@@ -1,14 +1,16 @@
 // import styles from './page.module.css';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
-import Todos from './todos';
 import { Button } from '@mui/material';
+// import Todos from './todos';
 import Main from './components/main';
+import Todos from './[todos]/todos';
 
 export default async function Home() {
 	const supabase = createClient();
 
   const { data, error } = await supabase.auth.getSession();
+	const { data: todos } = await supabase.from('todos').select();
 
   return (
 		<Main>
@@ -25,7 +27,8 @@ export default async function Home() {
 					</Button>
 				</>
 			) : (
-				<Todos session={data?.session} />
+				// <Todos session={data?.session} />
+				<Todos serverTodos={todos!} />
 			)}
 		</Main>
   );
