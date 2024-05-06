@@ -5,5 +5,6 @@ export interface Todo {
 	user_id: UUID,
 	task: string,
 	is_complete: boolean,
+	due_date: Date | string,
 	created_at: Date,
 }

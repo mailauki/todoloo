@@ -7,9 +7,7 @@ import { addTodo } from './actions';
 export default function AddTodo() {
   const [newTaskText, setNewTaskText] = React.useState('');
 	const today = new Date().toISOString().substring(0, 10);
-	console.log({today});
   const [newTaskDueDate, setNewTaskDueDate] = React.useState(today);
-	console.log(newTaskDueDate);
 
 	return (
 		<>
@@ -18,7 +16,7 @@ export default function AddTodo() {
 				elevation={0}
 				onSubmit={(event) => {
 					event.preventDefault();
-					addTodo(newTaskText)
+					addTodo({ taskText: newTaskText, dueDate: newTaskDueDate })
 					.finally(() => setNewTaskText(''));
 				}}
 				sx={{ backgroundColor: 'transparent' }}
@@ -48,7 +46,7 @@ export default function AddTodo() {
 						setNewTaskDueDate(e.target.value);
 					}}
 					placeholder='mm/dd/yyyy'
-					sx={{ '& input': { pr: 2.5 } }}
+					sx={{ '& input': { pr: 2.5, textAlign: 'left' } }}
 					type='date'
 					value={newTaskDueDate}
 				/>

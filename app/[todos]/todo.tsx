@@ -1,14 +1,37 @@
 'use client';
 import React from 'react';
 import type { Todo } from '@/utils/types';
-import { Delete } from '@mui/icons-material';
-import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, alpha } from '@mui/material';
+import { MoreVert } from '@mui/icons-material';
+import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Typography, alpha } from '@mui/material';
 import { createClient } from '@/utils/supabase/client';
 import { deleteTodo, toggleTodo } from './actions';
+import moment from 'moment';
+import TodoMenu from './todo-menu';
 
-export default function ToDo({serverTodo}: {serverTodo: Todo}) {
+export default function ToDo({ serverTodo }: { serverTodo: Todo }) {
   const supabase = createClient();
 	const [todo, setTodo] = React.useState(serverTodo);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => (event: React.MouseEvent<HTMLButtonElement>) => {
+		console.log(event.currentTarget.id, todo.id);
+		switch (event.currentTarget.id) {
+			case 'edit-task':
+				console.log('edit', todo.id);
+				break;
+			case 'delete-task':
+				deleteTodo(todo.id);
+				break;
+			default:
+				break;
+		}
+    setAnchorEl(null);
+  };
 
 	React.useEffect(() => {
 		const channel = supabase.channel('realtime todo')
@@ -26,42 +49,52 @@ export default function ToDo({serverTodo}: {serverTodo: Todo}) {
 	}, [supabase, todo, setTodo]);
 
 	return (
-		<Paper
-			component={ListItem}
-			secondaryAction={
-				<IconButton
-					aria-label='delete'
-					edge='end'
-					onClick={() => deleteTodo(todo.id)}
-				>
-					<Delete />
-				</IconButton>
-			}
-			sx={{
-				padding: 0,
-				marginBottom: 2,
-				overflow: 'hidden',
-				backgroundColor: (theme) => todo.is_complete ? alpha(theme.palette.background.paper, 0.2) : alpha(theme.palette.background.paper, 0.45),
-			}}
-			variant='outlined'
-		>
-			<ListItemButton dense onClick={() => toggleTodo(todo)} role={undefined}>
-				<ListItemIcon>
-					<Checkbox
-						checked={todo.is_complete}
-						disableRipple
-						edge='start'
-						tabIndex={-1}
+		<>
+			<Paper
+				component={ListItem}
+				secondaryAction={
+					<Stack alignItems='center' direction='row'>
+						<Typography id='due-date' variant='caption'>
+							{moment(todo.due_date).format('MMM D')}
+						</Typography>
+						<IconButton onClick={handleClick}>
+							<MoreVert />
+						</IconButton>
+					</Stack>
+				}
+				sx={{
+					padding: 0,
+					marginBottom: 2,
+					overflow: 'hidden',
+					backgroundColor: (theme) => todo.is_complete ? alpha(theme.palette.background.paper, 0.2) : alpha(theme.palette.background.paper, 0.45),
+					'& #due-date': {
+						color: todo.is_complete ? 'text.disabled' : 'text.secondary',
+						display: 'none',
+					},
+					'&:hover #due-date': { display: 'block' },
+					'& .MuiListItemSecondaryAction-root': { right: 2 },
+				}}
+				variant='outlined'
+			>
+				<ListItemButton dense onClick={() => toggleTodo(todo)} role={undefined}>
+					<ListItemIcon>
+						<Checkbox
+							checked={todo.is_complete}
+							disableRipple
+							edge='start'
+							tabIndex={-1}
+						/>
+					</ListItemIcon>
+					<ListItemText
+						primary={todo.task}
+						sx={{
+							textDecoration: todo.is_complete ? 'line-through' : 'none',
+							color: todo.is_complete ? 'text.disabled' : 'text.primary',
+						}}
 					/>
-				</ListItemIcon>
-				<ListItemText
-					primary={todo.task}
-					sx={{
-						textDecoration: todo.is_complete ? 'line-through' : 'none',
-						color: todo.is_complete ? 'text.disabled' : 'text.primary',
-					}}
-				/>
-			</ListItemButton>
-		</Paper>
+				</ListItemButton>
+			</Paper>
+			<TodoMenu anchor={anchorEl} handleClose={handleClose} open={open} />
+		</>
 	);
 }

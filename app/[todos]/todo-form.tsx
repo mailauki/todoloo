@@ -10,9 +10,6 @@ export default function TodoForm({
 	open: boolean,
 	handleClose: () => void,
 }) {
-  // const theme = useTheme();
-  // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
 	return (
 		<>
 			<Drawer

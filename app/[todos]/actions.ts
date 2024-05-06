@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/client';
 import type { Todo } from '@/utils/types';
 
-export const addTodo = async (taskText: string) => {
+export const addTodo = async ({ taskText, dueDate }: { taskText: string, dueDate: string }) => {
   const supabase = createClient();
   const { data } = await supabase.auth.getSession();
 	const user = data.session?.user;
@@ -9,7 +9,7 @@ export const addTodo = async (taskText: string) => {
 	if (task.length && user) {
 		const { data: todo, error } = await supabase
 		.from('todos')
-		.insert({ task, user_id: user.id })
+		.insert({ task, user_id: user.id, due_date: dueDate })
 		.select()
 		.single();
 		console.log(todo);
