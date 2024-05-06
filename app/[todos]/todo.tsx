@@ -4,7 +4,7 @@ import type { Todo } from '@/utils/types';
 import { MoreVert } from '@mui/icons-material';
 import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Typography, alpha } from '@mui/material';
 import { createClient } from '@/utils/supabase/client';
-import { deleteTodo, toggleTodo } from './actions';
+import { toggleTodo } from './actions';
 import moment from 'moment';
 import TodoMenu from './todo-menu';
 
@@ -18,18 +18,7 @@ export default function ToDo({ serverTodo }: { serverTodo: Todo }) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => (event: React.MouseEvent<HTMLButtonElement>) => {
-		console.log(event.currentTarget.id, todo.id);
-		switch (event.currentTarget.id) {
-			case 'edit-task':
-				console.log('edit', todo.id);
-				break;
-			case 'delete-task':
-				deleteTodo(todo.id);
-				break;
-			default:
-				break;
-		}
+  const handleClose = () => {
     setAnchorEl(null);
   };
 
@@ -94,7 +83,13 @@ export default function ToDo({ serverTodo }: { serverTodo: Todo }) {
 					/>
 				</ListItemButton>
 			</Paper>
-			<TodoMenu anchor={anchorEl} handleClose={handleClose} open={open} />
+
+			<TodoMenu
+				anchor={anchorEl}
+				handleClose={handleClose}
+				open={open}
+				todo={todo}
+			/>
 		</>
 	);
 }
