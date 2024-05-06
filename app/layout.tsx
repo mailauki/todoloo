@@ -42,7 +42,6 @@ export default async function RootLayout({
 					}}
 				>
 					<Header />
-					{/* <Background /> */}
 					{children}
 					<Background />
 					{data?.session && <BottomNav />}

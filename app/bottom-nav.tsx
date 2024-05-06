@@ -44,7 +44,8 @@ export default function BottomNav() {
 					bottom: 0,
 					left: 0,
 					right: 0,
-					zIndex: (theme) => theme.zIndex.appBar,
+					// zIndex: (theme) => theme.zIndex.appBar,
+					zIndex: (theme) => theme.zIndex.drawer + 1,
 				}}
 				// variant='outlined'
 			>

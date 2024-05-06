@@ -1,6 +1,6 @@
 'use client';
 import { Close } from '@mui/icons-material';
-import { Dialog, DialogContent, DialogTitle, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { Container, Dialog, DialogContent, DialogTitle, Drawer, IconButton, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import AddTodo from './add-todo';
 
 export default function TodoForm({
@@ -15,7 +15,7 @@ export default function TodoForm({
 
 	return (
 		<>
-			<Dialog
+			{/* <Dialog
         fullScreen={fullScreen}
 				fullWidth
 				maxWidth='xs'
@@ -38,7 +38,17 @@ export default function TodoForm({
 				<DialogContent>
 					<AddTodo />
 				</DialogContent>
-			</Dialog>
+			</Dialog> */}
+			<Drawer
+				anchor='bottom'
+				onClose={handleClose}
+				open={open}
+			>
+				<Container maxWidth='sm'>
+					<AddTodo />
+					<Toolbar sx={{ mt: 6 }} />
+				</Container>
+			</Drawer>
 		</>
 	);
 }
