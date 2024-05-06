@@ -4,6 +4,7 @@ import type { Todo } from '@/utils/types';
 import { Delete } from '@mui/icons-material';
 import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, alpha } from '@mui/material';
 import { createClient } from '@/utils/supabase/client';
+import { deleteTodo, toggleTodo } from './actions';
 
 export default function ToDo({serverTodo}: {serverTodo: Todo}) {
   const supabase = createClient();
@@ -24,17 +25,6 @@ export default function ToDo({serverTodo}: {serverTodo: Todo}) {
 		};
 	}, [supabase, todo, setTodo]);
 
-	const toggleTodo = async (todo: Todo) => {
-		const { error } = await supabase
-		.from('todos')
-		.update({ is_complete: !todo.is_complete })
-		.eq('id', todo.id);
-
-		if (error) {
-			console.log(error.message);
-		}
-  };
-
 	return (
 		<Paper
 			component={ListItem}
@@ -42,6 +32,7 @@ export default function ToDo({serverTodo}: {serverTodo: Todo}) {
 				<IconButton
 					aria-label='delete'
 					edge='end'
+					onClick={() => deleteTodo(todo.id)}
 				>
 					<Delete />
 				</IconButton>
