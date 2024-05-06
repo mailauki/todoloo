@@ -6,6 +6,10 @@ import { addTodo } from './actions';
 
 export default function AddTodo() {
   const [newTaskText, setNewTaskText] = React.useState('');
+	const today = new Date().toISOString().substring(0, 10);
+	console.log({today});
+  const [newTaskDueDate, setNewTaskDueDate] = React.useState(today);
+	console.log(newTaskDueDate);
 
 	return (
 		<>
@@ -33,9 +37,20 @@ export default function AddTodo() {
 					onChange={(e) => {
 						setNewTaskText(e.target.value);
 					}}
-					// size='small'
 					type='text'
 					value={newTaskText}
+				/>
+				<TextField
+					fullWidth
+					label='Due Date'
+					margin='normal'
+					onChange={(e) => {
+						setNewTaskDueDate(e.target.value);
+					}}
+					placeholder='mm/dd/yyyy'
+					sx={{ '& input': { pr: 2.5 } }}
+					type='date'
+					value={newTaskDueDate}
 				/>
 			</Paper>
 		</>
