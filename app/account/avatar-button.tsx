@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Edit } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';

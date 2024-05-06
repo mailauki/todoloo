@@ -1,7 +1,5 @@
 'use client';
-
-import * as React from 'react';
-
+import React from 'react';
 import { Button, IconButton, InputAdornment, Stack, TextField } from '@mui/material';
 import { login, signup } from './actions';
 import { Visibility, VisibilityOff } from '@mui/icons-material';

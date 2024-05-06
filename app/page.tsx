@@ -1,8 +1,7 @@
 // import styles from './page.module.css';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
-import { Button } from '@mui/material';
-// import Todos from './todos';
+import { Button, Toolbar } from '@mui/material';
 import Main from './components/main';
 import Todos from './[todos]/todos';
 
@@ -27,9 +26,11 @@ export default async function Home() {
 					</Button>
 				</>
 			) : (
-				// <Todos session={data?.session} />
-				<Todos serverTodos={todos!} />
+				<>
+					<Todos serverTodos={todos!} />
+				</>
 			)}
+			<Toolbar sx={{ mt: 6 }} />
 		</Main>
   );
 }

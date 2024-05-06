@@ -5,8 +5,9 @@ export default function Header() {
 	return (
 		<AppBar
 			// color='inherit'
-			// elevation={0}
+			elevation={0}
 			// sx={{ backgroundColor: 'primary.light' }}
+			sx={{ backgroundColor: 'transparent' }}
 		>
 			<Toolbar
 				sx={{

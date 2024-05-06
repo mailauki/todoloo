@@ -1,6 +1,6 @@
 'use client';
-import * as React from 'react';
-import { Card, CardContent, CardHeader, Dialog, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
+import React from 'react';
+import { Card, CardContent, CardHeader, Dialog, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography, alpha, useMediaQuery, useTheme } from '@mui/material';
 import { Close, Logout, Mail } from '@mui/icons-material';
 import AccountForm from './account-form';
 import { createClient } from '@/utils/supabase/client';
@@ -106,7 +106,7 @@ export default function Profile({ user }: { user: User | null }) {
 						justifyContent='center'
 					>
 						<Paper
-							elevation={1}
+							elevation={0}
 							sx={{
 								width: 'fit-content',
 								borderRadius: '50%',
@@ -124,7 +124,8 @@ export default function Profile({ user }: { user: User | null }) {
 					<Card
 						elevation={0}
 						sx={{
-							backgroundColor: 'primary.lighter',
+							// backgroundColor: 'primary.lighter',
+							backgroundColor: alpha(theme.palette.background.paper, 0.45),
 						}}
 					>
 						<CardHeader
@@ -191,6 +192,7 @@ export default function Profile({ user }: { user: User | null }) {
 						</List>
 					</Card>
 				</Stack>
+				<Toolbar sx={{ mt: 6 }} />
 			</Main>
 
 			<Dialog

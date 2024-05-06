@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Box, ButtonBase, FormControl, Radio, RadioGroup, Tooltip, styled } from '@mui/material';
 import { amber, blue, cyan, deepOrange, deepPurple, green, grey, indigo, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow } from '@mui/material/colors';
 import { Check } from '@mui/icons-material';

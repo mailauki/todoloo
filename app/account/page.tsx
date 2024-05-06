@@ -13,7 +13,6 @@ export default async function Account() {
 		redirect('/login');
 	}
 
-
 	return (
 		<>
 			<Profile user={user} />

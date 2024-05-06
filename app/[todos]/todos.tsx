@@ -1,5 +1,5 @@
 'use client';
-import * as React from 'react';
+import React from 'react';
 import type { Todo } from '@/utils/types';
 import { createClient } from '@/utils/supabase/client';
 import { List } from '@mui/material';

@@ -1,5 +1,5 @@
 'use client';
-import * as React from 'react';
+import React from 'react';
 import type { Todo } from '@/utils/types';
 import { Delete } from '@mui/icons-material';
 import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, alpha } from '@mui/material';

@@ -1,7 +1,5 @@
 'use client';
-
-import * as React from 'react';
-
+import React from 'react';
 import { ThemeProvider, createTheme, useMediaQuery } from '@mui/material';
 import { createClient } from './supabase/client';
 import { amber, blue, cyan, deepOrange, deepPurple, green, grey, indigo, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow } from '@mui/material/colors';
@@ -18,6 +16,8 @@ declare module '@mui/material/styles' {
   }
 }
 
+type ColorsType = typeof red|typeof pink|typeof purple|typeof deepPurple|typeof indigo|typeof blue|typeof lightBlue|typeof cyan|typeof teal|typeof green|typeof lightGreen|typeof lime|typeof yellow|typeof amber|typeof orange|typeof deepOrange|typeof grey;
+
 export default function Theme({
   children,
 }: Readonly<{
@@ -26,7 +26,7 @@ export default function Theme({
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const supabase = createClient();
   const [colorLabel, setColorLabel] = React.useState<string | null>(null);
-  const [color, setColor] = React.useState<typeof red|typeof pink|typeof purple|typeof deepPurple|typeof indigo|typeof blue|typeof lightBlue|typeof cyan|typeof teal|typeof green|typeof lightGreen|typeof lime|typeof yellow|typeof amber|typeof orange|typeof deepOrange|typeof grey>(grey);
+  const [color, setColor] = React.useState<ColorsType>(grey);
 
 	React.useEffect(() => {
 		switch (colorLabel) {
@@ -121,6 +121,9 @@ export default function Theme({
 						// lighter: prefersDarkMode ? alpha(color[900], 0.15) : color[50],
 						// light: prefersDarkMode ? alpha(color[900], 0.5) : color[100],
 						main: prefersDarkMode ? color[600] : color[500],
+					},
+					secondary: {
+						main: purple[500],
 					},
 				},
 			}),
