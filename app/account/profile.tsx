@@ -1,25 +1,22 @@
 'use client';
 import React from 'react';
-import { Card, CardContent, CardHeader, Dialog, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography, alpha, useMediaQuery, useTheme } from '@mui/material';
-import { Close, Logout, Mail } from '@mui/icons-material';
-import AccountForm from './account-form';
-import { createClient } from '@/utils/supabase/client';
-import type { User } from '@supabase/supabase-js';
-import AvatarButton from './avatar-button';
+import { Card, CardContent, CardHeader, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography, alpha, useTheme } from '@mui/material';
+import { ChevronRight, Edit, Logout, Mail } from '@mui/icons-material';
 import Main from '../components/main';
+import AccountForm from './account-form';
+import AvatarButton from './avatar-button';
+import BottomDrawer from '../components/bottom-drawer';
+import type { User } from '@supabase/supabase-js';
+import type { Profile } from '@/utils/types';
 
-export default function Profile({ user }: { user: User | null }) {
-  const supabase = createClient();
-  const [loading, setLoading] = React.useState(true);
-  const [fullname, setFullname] = React.useState<string | null>(null);
-  const [username, setUsername] = React.useState<string | null>(null);
-  const [avatar_url, setAvatarUrl] = React.useState<string | null>(null);
-  const [color, setColor] = React.useState<string | null>(null);
+export default function Profile({ user, profile }: { user: User | null, profile: Profile }) {
+	const {full_name, username, avatar_url, color} = profile;
 	const [open, setOpen] = React.useState(false);
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-	console.log({loading}, {fullname}, {color});
+	console.log({user});
+	console.log({profile});
+	console.log({full_name}, {username}, {avatar_url}, {color});
 
   // const handleClick = () => {
   //   setOpen(!open);
@@ -33,68 +30,20 @@ export default function Profile({ user }: { user: User | null }) {
     setOpen(false);
   };
 
-	const getProfile = React.useCallback(async () => {
-    try {
-      setLoading(true);
+	// React.useEffect(() => {
+	// 	const channel = supabase.channel('realtime profile')
+	// 	.on('postgres_changes', {
+	// 		event: 'UPDATE',
+	// 		schema: 'public',
+	// 		table: 'profiles',
+	// 		filter: `id=eq.${profile.id}`,
+	// 	}, (payload) => console.log({payload}))
+	// 	.subscribe();
 
-      const { data, error, status } = await supabase
-        .from('profiles')
-        .select(`full_name, username, avatar_url, color`)
-        .eq('id', user?.id)
-        .single();
-
-      if (error && status !== 406) {
-        console.log(error);
-        throw error;
-      }
-
-      if (data) {
-        setFullname(data.full_name);
-        setUsername(data.username);
-        setAvatarUrl(data.avatar_url);
-				setColor(data.color);
-      }
-    } catch (error) {
-      alert('Error loading user data!');
-		} finally {
-			setLoading(false);
-		}
-  }, [user, supabase]);
-
-  React.useEffect(() => {
-    getProfile();
-  }, [user, getProfile]);
-
-	// async function updateProfile({
-  //   username,
-	// 	fullname,
-  //   avatar_url,
-  //   color,
-  // }: {
-  //   username: string | null
-  //   fullname: string | null
-  //   avatar_url: string | null
-  //   color: string | null
-  // }) {
-  //   try {
-  //     setLoading(true);
-
-  //     const { error } = await supabase.from('profiles').upsert({
-  //       id: user?.id as string,
-  //       full_name: fullname,
-  //       username,
-  //       avatar_url,
-	// 			color,
-  //       updated_at: new Date().toISOString(),
-  //     });
-  //     if (error) throw error;
-  //     alert('Profile updated!');
-  //   } catch (error) {
-  //     alert('Error updating the data!');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
+	// 	return () => {
+	// 		supabase.removeChannel(channel);
+	// 	};
+	// });
 
 	return (
 		<>
@@ -152,6 +101,20 @@ export default function Profile({ user }: { user: User | null }) {
 								<ListItemText primary='Email' />
 							</ListItem>
 
+							<ListItem
+								disablePadding
+								secondaryAction={
+									<ChevronRight />
+								}
+							>
+								<ListItemButton onClick={handleClickOpen}>
+									<ListItemIcon>
+										<Edit />
+									</ListItemIcon>
+									<ListItemText primary='Update Profile' />
+								</ListItemButton>
+							</ListItem>
+
 							{/* <ListItem disablePadding>
 								<ListItemButton onClick={handleClick}>
 									<ListItemIcon>
@@ -176,6 +139,8 @@ export default function Profile({ user }: { user: User | null }) {
 								</List>
 							</Collapse> */}
 
+							<Divider sx={{ my: 2 }} />
+
 							<ListItem
 								action='/auth/signout'
 								component='form'
@@ -195,35 +160,9 @@ export default function Profile({ user }: { user: User | null }) {
 				<Toolbar sx={{ mt: 6 }} />
 			</Main>
 
-			<Dialog
-        fullScreen={fullScreen}
-				fullWidth
-				maxWidth='xs'
-				onClose={handleClose}
-				open={open}
-				sx={{
-					'& .MuiDialog-paper': {
-						backgroundColor: (theme) => theme.palette.background.default,
-					},
-				}}
-			>
-				<DialogTitle>Edit Account</DialogTitle>
-				<IconButton
-          aria-label='close'
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <Close />
-        </IconButton>
-				<DialogContent>
-					<AccountForm user={user} />
-				</DialogContent>
-			</Dialog>
+			<BottomDrawer handleClose={handleClose} open={open}>
+				<AccountForm profile={profile} user={user} />
+			</BottomDrawer>
 		</>
 	);
 }

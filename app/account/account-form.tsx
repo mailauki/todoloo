@@ -1,84 +1,24 @@
 'use client';
 import React from 'react';
-import { createClient } from '@/utils/supabase/client';
 import { type User } from '@supabase/supabase-js';
 import { Button, Stack, TextField } from '@mui/material';
 import AvatarForm from './avatar-form';
 import ColorPicker from '../components/color-picker';
+import type { Profile } from '@/utils/types';
+import { updateProfile } from './actions';
 
 export default function AccountForm({
-  user,
+  user, profile,
 }: {
 	user: User | null,
+	profile: Profile,
 }) {
-  const supabase = createClient();
-  const [loading, setLoading] = React.useState(true);
-  const [fullname, setFullname] = React.useState<string | null>(null);
-  const [username, setUsername] = React.useState<string | null>(null);
-  const [avatar_url, setAvatarUrl] = React.useState<string | null>(null);
-  const [color, setColor] = React.useState<string | null>(null);
-
-  const getProfile = React.useCallback(async () => {
-    try {
-      setLoading(true);
-
-      const { data, error, status } = await supabase
-        .from('profiles')
-        .select(`full_name, username, avatar_url, color`)
-        .eq('id', user?.id)
-        .single();
-
-      if (error && status !== 406) {
-        console.log(error);
-        throw error;
-      }
-
-      if (data) {
-        setFullname(data.full_name);
-        setUsername(data.username);
-        setAvatarUrl(data.avatar_url);
-        setColor(data.color);
-      }
-    } catch (error) {
-      alert('Error loading user data!');
-    } finally {
-      setLoading(false);
-    }
-  }, [user, supabase]);
-
-  React.useEffect(() => {
-    getProfile();
-  }, [user, getProfile]);
-
-  async function updateProfile({
-    username,
-    avatar_url,
-    color,
-  }: {
-    username: string | null
-    fullname: string | null
-    avatar_url: string | null
-    color: string | null
-  }) {
-    try {
-      setLoading(true);
-
-      const { error } = await supabase.from('profiles').upsert({
-        id: user?.id as string,
-        full_name: fullname,
-        username,
-        avatar_url,
-				color,
-        updated_at: new Date().toISOString(),
-      });
-      if (error) throw error;
-      alert('Profile updated!');
-    } catch (error) {
-      alert('Error updating the data!');
-    } finally {
-      setLoading(false);
-    }
-  }
+	// const {full_name, username, avatar_url, color} = profile;
+  // const [loading, setLoading] = React.useState(!profile);
+  const [full_name, setFullname] = React.useState<string | null>(profile.full_name||null);
+  const [username, setUsername] = React.useState<string | null>(profile.username||null);
+  const [avatar_url, setAvatarUrl] = React.useState<string | null>(profile.avatar_url||null);
+  const [color, setColor] = React.useState<string | null>(profile.color||null);
 
   return (
 		<>
@@ -89,8 +29,9 @@ export default function AccountForm({
 			>
 				<AvatarForm
 					onUpload={(url) => {
+						console.log(url);
 						setAvatarUrl(url);
-						updateProfile({ fullname, username, avatar_url: url, color });
+						updateProfile({ full_name, username, avatar_url: url, color });
 					}}
 					uid={user?.id ?? null}
 					url={avatar_url}
@@ -101,7 +42,7 @@ export default function AccountForm({
 					onColorChange={(color_code) => {
 						console.log(color_code);
 						setColor(color_code);
-						updateProfile({ fullname, username, avatar_url, color: color_code });
+						updateProfile({ full_name, username, avatar_url, color: color_code });
 					}}
 				/>
 
@@ -111,7 +52,7 @@ export default function AccountForm({
 					label='Name'
 					onChange={(e) => setFullname(e.target.value)}
 					type='text'
-					value={fullname || ''}
+					value={full_name || ''}
 				/>
 				<TextField
 					fullWidth
@@ -123,13 +64,14 @@ export default function AccountForm({
 				/>
 
 				<Button
-					disabled={loading}
+					// disabled={loading}
 					fullWidth
-					onClick={() => updateProfile({ fullname, username, avatar_url, color })}
+					onClick={() => updateProfile({ full_name, username, avatar_url, color })}
 					size='large'
 					variant='contained'
 				>
-					{loading ? 'Loading ...' : 'Update'}
+					{/* {loading ? 'Loading ...' : 'Update'} */}
+					Update
 				</Button>
 			</Stack>
 		</>

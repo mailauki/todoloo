@@ -26,7 +26,7 @@ export default function TodoForm({
 							<Close />
 						</IconButton>
 					</Toolbar>
-					<AddTodo />
+					<AddTodo handleClose={handleClose} />
 					<Toolbar sx={{ mt: 6 }} />
 				</Container>
 			</Drawer>

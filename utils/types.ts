@@ -8,3 +8,11 @@ export interface Todo {
 	due_date: Date | string,
 	created_at: Date,
 }
+
+export interface Profile {
+	id: UUID,
+	full_name: string,
+	username: string,
+	avatar_url: string,
+	color: string,
+}

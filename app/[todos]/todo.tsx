@@ -42,9 +42,9 @@ export default function ToDo({ serverTodo }: { serverTodo: Todo }) {
 			<Paper
 				component={ListItem}
 				secondaryAction={
-					<Stack alignItems='center' direction='row'>
+					<Stack alignItems='center' direction='row' spacing={0.5}>
 						<Typography id='due-date' variant='caption'>
-							{moment(todo.due_date).format('MMM D')}
+							{moment(todo.due_date).format('dddd, MMM D')}
 						</Typography>
 						<IconButton onClick={handleClick}>
 							<MoreVert />

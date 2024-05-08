@@ -25,10 +25,15 @@ export default async function RootLayout({
 	const supabase = createClient();
 
   const { data } = await supabase.auth.getSession();
+	const { data: profile } = await supabase
+	.from('profiles')
+	.select(`id, full_name, username, avatar_url, color`)
+	.eq('id', data.session?.user.id)
+	.single();
 
   return (
     <html lang='en'>
-			<Theme>
+			<Theme profileColor={profile!.color}>
 				<Paper
 					className={inter.className}
 					component='body'

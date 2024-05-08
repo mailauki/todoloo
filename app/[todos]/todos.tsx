@@ -25,56 +25,66 @@ export default function Todos({ serverTodos }: { serverTodos: Todo[] }) {
 		};
 	}, [supabase, todos, setTodos]);
 
+	if (!todos || (todosDueToday.length > 0 && todosPastDue.length > 0 && todosDueLater.length > 0)) return <Typography variant='h6'>No ToDos</Typography>;
+
 	return (
 		<>
-			<List
-				subheader={
-					<Typography
-						color='background.paper'
-						sx={{ mb: 1 }}
-						variant='h6'
-					>
-						Due Today
-					</Typography>
-				}
-				sx={{ width: '100%' }}
-			>
-				{todosDueToday.map((todo) => (
-					<ToDo key={todo.id} serverTodo={todo} />
-				))}
-			</List>
-			<List
-				subheader={
-					<Typography
-						color='background.paper'
-						sx={{ mb: 1 }}
-						variant='h6'
-					>
-						Past Due
-					</Typography>
-				}
-				sx={{ width: '100%' }}
-			>
-				{todosPastDue.map((todo) => (
-					<ToDo key={todo.id} serverTodo={todo} />
-				))}
-			</List>
-			<List
-				subheader={
-					<Typography
-						color='background.paper'
-						sx={{ mb: 1 }}
-						variant='h6'
-					>
-						Due Later
-					</Typography>
-				}
-				sx={{ width: '100%' }}
-			>
-				{todosDueLater.map((todo) => (
-					<ToDo key={todo.id} serverTodo={todo} />
-				))}
-			</List>
+			{todosDueToday && todosDueToday.length > 0 && (
+				<List
+					subheader={
+						<Typography
+							color='background.paper'
+							sx={{ mb: 1 }}
+							variant='h6'
+						>
+							Due Today
+						</Typography>
+					}
+					sx={{ width: '100%' }}
+				>
+					{todosDueToday.map((todo) => (
+						<ToDo key={todo.id} serverTodo={todo} />
+					))}
+				</List>
+			)}
+
+			{todosPastDue && todosPastDue.length > 0 && (
+				<List
+					subheader={
+						<Typography
+							color='background.paper'
+							sx={{ mb: 1 }}
+							variant='h6'
+						>
+							Past Due
+						</Typography>
+					}
+					sx={{ width: '100%' }}
+				>
+					{todosPastDue.map((todo) => (
+						<ToDo key={todo.id} serverTodo={todo} />
+					))}
+				</List>
+			)}
+
+			{todosDueLater && todosDueLater.length > 0 && (
+				<List
+					subheader={
+						<Typography
+							color='background.paper'
+							sx={{ mb: 1 }}
+							variant='h6'
+						>
+							Due Later
+						</Typography>
+					}
+					sx={{ width: '100%' }}
+				>
+					{todosDueLater.map((todo) => (
+						<ToDo key={todo.id} serverTodo={todo} />
+					))}
+				</List>
+			)}
 		</>
 	);
 }

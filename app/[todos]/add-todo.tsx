@@ -4,7 +4,7 @@ import { Add } from '@mui/icons-material';
 import { IconButton, InputAdornment, Paper, TextField } from '@mui/material';
 import { addTodo } from './actions';
 
-export default function AddTodo() {
+export default function AddTodo({ handleClose }: { handleClose: () => void }) {
   const [newTaskText, setNewTaskText] = React.useState('');
 	const today = new Date().toISOString().substring(0, 10);
   const [newTaskDueDate, setNewTaskDueDate] = React.useState(today);
@@ -18,6 +18,7 @@ export default function AddTodo() {
 					event.preventDefault();
 					addTodo({ taskText: newTaskText, dueDate: newTaskDueDate })
 					.finally(() => setNewTaskText(''));
+					handleClose();
 				}}
 				sx={{ backgroundColor: 'transparent' }}
 			>

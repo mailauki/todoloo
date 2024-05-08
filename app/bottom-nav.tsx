@@ -4,7 +4,9 @@ import { BottomNavigation, BottomNavigationAction, Fab, Paper, Typography, style
 import { Add, Check, Person } from '@mui/icons-material';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import TodoForm from './[todos]/todo-form';
+// import TodoForm from './[todos]/todo-form';
+import BottomDrawer from './components/bottom-drawer';
+import AddTodo from './[todos]/add-todo';
 
 const StyledFab = styled(Fab)({
   position: 'absolute',
@@ -115,7 +117,10 @@ export default function BottomNav() {
 					/>
 				</BottomNavigation>
 			</Paper>
-			<TodoForm handleClose={handleClose} open={open} />
+
+			<BottomDrawer handleClose={handleClose} open={open}>
+				<AddTodo handleClose={handleClose} />
+			</BottomDrawer>
 		</>
 	);
 }
