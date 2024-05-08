@@ -8,11 +8,14 @@ import BottomDrawer from '../components/bottom-drawer';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/utils/types';
 import AvatarDL from './avatar-dl';
+import { createClient } from '@/utils/supabase/client';
 
-export default function Profile({ user, profile }: { user: User | null, profile: Profile }) {
+export default function Account({ user, serverProfile }: { user: User | null, serverProfile: Profile }) {
+	const [profile, setProfile] = React.useState(serverProfile);
 	const {full_name, username, avatar_url, color} = profile;
 	const [open, setOpen] = React.useState(false);
   const theme = useTheme();
+	const supabase = createClient();
 
 	console.log({user});
 	console.log({profile});
@@ -29,6 +32,20 @@ export default function Profile({ user, profile }: { user: User | null, profile:
   const handleClose = () => {
     setOpen(false);
   };
+
+	React.useEffect(() => {
+		const channel = supabase.channel('realtime profile')
+		.on('postgres_changes', {
+			event: 'UPDATE',
+			schema: 'public',
+			table: 'profiles',
+		}, (payload) => setProfile(payload.new as Profile))
+		.subscribe();
+
+		return () => {
+			supabase.removeChannel(channel);
+		};
+	});
 
 	return (
 		<>

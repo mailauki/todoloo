@@ -15,4 +15,5 @@ export interface Profile {
 	username: string,
 	avatar_url: string,
 	color: string,
+	updated_at: Date,
 }

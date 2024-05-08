@@ -3,7 +3,7 @@ import { Paper } from '@mui/material';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Header from './header';
-import BottomNav from './bottom-nav';
+import BottomNav from './components/bottom-nav';
 import { createClient } from '@/utils/supabase/server';
 import Background from './components/background';
 // import { cookies } from 'next/headers';

@@ -5,8 +5,8 @@ import { Add, Check, Person } from '@mui/icons-material';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 // import TodoForm from './[todos]/todo-form';
-import BottomDrawer from './components/bottom-drawer';
-import AddTodo from './[todos]/add-todo';
+import BottomDrawer from './bottom-drawer';
+import AddTodo from '../[todos]/add-todo';
 
 const StyledFab = styled(Fab)({
   position: 'absolute',
@@ -15,6 +15,7 @@ const StyledFab = styled(Fab)({
   left: 0,
   right: 0,
   margin: '0 auto',
+	// backgroundColor: 'tertiary.main',
 });
 
 export default function BottomNav() {
@@ -86,9 +87,12 @@ export default function BottomNav() {
 					/>
 					<StyledFab
 						aria-label='add todo'
-						color='warning'
+						color='secondary'
 						onClick={handleClickOpen}
-						sx={{ display: value === '/' ? 'inline-flex': 'none' }}
+						sx={{
+							display: value === '/' ? 'inline-flex': 'none',
+							// backgroundColor: (theme) => theme.palette.tertiary.main,
+						}}
 					>
 						<Add />
 					</StyledFab>
