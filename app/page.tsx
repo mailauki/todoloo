@@ -1,35 +1,25 @@
 // import styles from './page.module.css';
 import { createClient } from '@/utils/supabase/server';
-import Link from 'next/link';
-import { Button, Toolbar } from '@mui/material';
+import { Toolbar } from '@mui/material';
 import Main from './components/main';
 import Todos from './[todos]/todos';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
 	const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getSession();
-	const { data: todos } = await supabase.from('todos').select();
+  const { data: { session }, error } = await supabase.auth.getSession();
+
+	if (!session || error) redirect('/login');
+
+	const { data: todos } = await supabase
+	.from('todos')
+	.select()
+	.eq('id', session?.user.id);
 
   return (
 		<Main>
-			{error || !data?.session ? (
-				<>
-					<Button
-						component={Link}
-						fullWidth
-						href='/login'
-						size='large'
-						variant='contained'
-					>
-						Login
-					</Button>
-				</>
-			) : (
-				<>
-					<Todos serverTodos={todos!} />
-				</>
-			)}
+			<Todos serverTodos={todos!} />
 			<Toolbar sx={{ mt: 6 }} />
 		</Main>
   );

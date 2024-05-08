@@ -1,8 +1,9 @@
 'use client';
 import React from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { IconButton, Paper, Stack } from '@mui/material';
-import AvatarButton from './avatar-button';
+import { Badge, IconButton, Paper, Stack } from '@mui/material';
+import { Edit } from '@mui/icons-material';
+import AvatarDL from './avatar-dl';
 
 export default function AvatarForm({
   uid,
@@ -68,7 +69,26 @@ export default function AvatarForm({
 					htmlFor='single'
 					sx={{ p: 0.5 }}
 				>
-					<AvatarButton url={url} />
+					<Badge
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'right',
+						}}
+						badgeContent={
+							<Edit fontSize='small' />
+						}
+						color='primary'
+						overlap='circular'
+						sx={{
+							span: {
+								borderRadius: 8,
+								width: 30,
+								height: 30,
+							},
+						}}
+					>
+						<AvatarDL url={url} />
+					</Badge>
 				</IconButton>
 			</Paper>
     </Stack>

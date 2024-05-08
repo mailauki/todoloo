@@ -1,18 +1,21 @@
 'use client';
 import React from 'react';
-import { Button, IconButton, InputAdornment, Stack, TextField } from '@mui/material';
+import { Button, IconButton, InputAdornment, Link as Anchor, Stack, TextField, Typography } from '@mui/material';
 import { login, signup } from './actions';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Main from '../components/main';
 
 export default function LoginPage() {
 	const [showPassword, setShowPassword] = React.useState(false);
+	const [showSignup, setShowSignup] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
+
+  const handleClickShowSignup = () => setShowSignup((show) => !show);
 
   return (
 		<Main>
@@ -46,22 +49,58 @@ export default function LoginPage() {
 					required
 					type={showPassword ? 'text' : 'password'}
 				/>
-				<Button
-					formAction={login}
-					size='large'
-					type='submit'
-					variant='contained'
-				>
-					Log in
-				</Button>
-				<Button
-					formAction={signup}
-					size='large'
-					type='submit'
-					variant='outlined'
-				>
-					Sign up
-				</Button>
+				{!showSignup ? (
+					<>
+						<Button
+							formAction={login}
+							size='large'
+							type='submit'
+							variant='contained'
+						>
+							Login
+						</Button>
+						<Typography align='center'>
+							Don&apos;t have an account?
+							{' '}
+							<Anchor
+								color='inherit'
+								component='button'
+								onClick={handleClickShowSignup}
+							>
+								Sign Up Now
+							</Anchor>
+						</Typography>
+					</>
+				) : (
+					<>
+						{/* <TextField
+							fullWidth
+							id='username'
+							label='Username'
+							name='username'
+							type='text'
+						/> */}
+						<Button
+							formAction={signup}
+							size='large'
+							type='submit'
+							variant='contained'
+						>
+							Sign up
+						</Button>
+						<Typography align='center'>
+							Already have an account?
+							{' '}
+							<Anchor
+								color='inherit'
+								component='button'
+								onClick={handleClickShowSignup}
+							>
+								Login
+							</Anchor>
+						</Typography>
+					</>
+				)}
 			</Stack>
 		</Main>
   );

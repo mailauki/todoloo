@@ -24,16 +24,17 @@ export default async function RootLayout({
 	// const cookieStore = cookies();
 	const supabase = createClient();
 
-  const { data } = await supabase.auth.getSession();
+  const { data: { session } } = await supabase.auth.getSession();
+
 	const { data: profile } = await supabase
 	.from('profiles')
 	.select(`id, full_name, username, avatar_url, color`)
-	.eq('id', data.session?.user.id)
+	.eq('id', session?.user.id)
 	.single();
 
   return (
     <html lang='en'>
-			<Theme profileColor={profile!.color}>
+			<Theme profileColor={profile?.color||null}>
 				<Paper
 					className={inter.className}
 					component='body'
@@ -49,7 +50,7 @@ export default async function RootLayout({
 					<Header />
 					{children}
 					<Background />
-					{data?.session && <BottomNav />}
+					{session && <BottomNav />}
 				</Paper>
 			</Theme>
     </html>

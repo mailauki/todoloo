@@ -1,13 +1,13 @@
 'use client';
 import React from 'react';
-import { Card, CardContent, CardHeader, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography, alpha, useTheme } from '@mui/material';
+import { Card, CardContent, CardHeader, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography, alpha, useTheme } from '@mui/material';
 import { ChevronRight, Edit, Logout, Mail } from '@mui/icons-material';
 import Main from '../components/main';
 import AccountForm from './account-form';
-import AvatarButton from './avatar-button';
 import BottomDrawer from '../components/bottom-drawer';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/utils/types';
+import AvatarDL from './avatar-dl';
 
 export default function Profile({ user, profile }: { user: User | null, profile: Profile }) {
 	const {full_name, username, avatar_url, color} = profile;
@@ -30,21 +30,6 @@ export default function Profile({ user, profile }: { user: User | null, profile:
     setOpen(false);
   };
 
-	// React.useEffect(() => {
-	// 	const channel = supabase.channel('realtime profile')
-	// 	.on('postgres_changes', {
-	// 		event: 'UPDATE',
-	// 		schema: 'public',
-	// 		table: 'profiles',
-	// 		filter: `id=eq.${profile.id}`,
-	// 	}, (payload) => console.log({payload}))
-	// 	.subscribe();
-
-	// 	return () => {
-	// 		supabase.removeChannel(channel);
-	// 	};
-	// });
-
 	return (
 		<>
 			<Main>
@@ -59,14 +44,10 @@ export default function Profile({ user, profile }: { user: User | null, profile:
 							sx={{
 								width: 'fit-content',
 								borderRadius: '50%',
+								p: 0.5,
 							}}
 						>
-							<IconButton
-								onClick={handleClickOpen}
-								sx={{ p: 0.5 }}
-							>
-								<AvatarButton url={avatar_url} />
-							</IconButton>
+							<AvatarDL url={avatar_url} />
 						</Paper>
 					</Stack>
 

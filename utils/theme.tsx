@@ -26,7 +26,7 @@ export default function Theme({
 	profileColor,
 }: Readonly<{
   children: React.ReactNode
-	profileColor: string,
+	profileColor: string|null,
 }>) {
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const supabase = createClient();

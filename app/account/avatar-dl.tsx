@@ -1,9 +1,9 @@
 import React from 'react';
+import { Avatar } from '@mui/material';
 import { createClient } from '@/utils/supabase/client';
-import { Edit } from '@mui/icons-material';
-import { Avatar, Badge } from '@mui/material';
 
-export default function AvatarButton({ url }: { url: string | null }) {
+
+export default function AvatarDL({ url }: { url: string | null }) {
 	const supabase = createClient();
   const [avatarUrl, setAvatarUrl] = React.useState<string | null>(url);
 
@@ -26,35 +26,10 @@ export default function AvatarButton({ url }: { url: string | null }) {
   }, [url, supabase]);
 
 	return (
-		<Badge
-			anchorOrigin={{
-				vertical: 'bottom',
-				horizontal: 'right',
-			}}
-			badgeContent={
-				<Edit fontSize='small' />
-			}
-			color='primary'
-			overlap='circular'
-			sx={{
-				span: {
-					borderRadius: 8,
-					width: 30,
-					height: 30,
-					display: 'none',
-				},
-				'&:hover': {
-					span: {
-						display: 'inherit',
-					},
-				},
-			}}
-		>
-			<Avatar
-				alt='Avatar'
-				src={avatarUrl!}
-				sx={{ width: 100, height: 100 }}
-			/>
-		</Badge>
+		<Avatar
+			alt='Avatar'
+			src={avatarUrl!}
+			sx={{ width: 100, height: 100 }}
+		/>
 	);
 }
