@@ -25,7 +25,11 @@ export default function Todos({ serverTodos }: { serverTodos: Todo[] }) {
 		};
 	}, [supabase, todos, setTodos]);
 
+	console.log({todosDueToday}, {todosPastDue}, {todosDueLater});
+	console.log({todos}, {serverTodos});
+
 	if (!todos || (todosDueToday.length > 0 && todosPastDue.length > 0 && todosDueLater.length > 0)) return <Typography variant='h6'>No ToDos</Typography>;
+
 
 	return (
 		<>

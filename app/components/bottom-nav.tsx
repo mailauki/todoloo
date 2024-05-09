@@ -15,7 +15,6 @@ const StyledFab = styled(Fab)({
   left: 0,
   right: 0,
   margin: '0 auto',
-	// backgroundColor: 'tertiary.main',
 });
 
 export default function BottomNav() {
@@ -39,7 +38,25 @@ export default function BottomNav() {
 
 	return (
 		<>
-			<Paper
+			<Fab
+				aria-label='add todo'
+				color='secondary'
+				// color='inherit'
+				onClick={handleClickOpen}
+				sx={{
+					display: value === '/' ? 'inline-flex': 'none',
+					// backgroundColor: (theme) => theme.palette.tertiary.main,
+					position: 'absolute',
+					top: 'auto',
+					bottom: 50,
+					left: 0,
+					right: 0,
+					margin: '0 auto',
+				}}
+			>
+				<Add />
+			</Fab>
+			{/* <Paper
 				elevation={10}
 				square
 				sx={{
@@ -120,7 +137,7 @@ export default function BottomNav() {
 						value='/account'
 					/>
 				</BottomNavigation>
-			</Paper>
+			</Paper> */}
 
 			<BottomDrawer handleClose={handleClose} open={open}>
 				<AddTodo handleClose={handleClose} />

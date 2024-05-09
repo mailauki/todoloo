@@ -2,7 +2,7 @@ import Theme from '@/utils/theme';
 import { Paper } from '@mui/material';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Header from './header';
+import Header from './components/header';
 import BottomNav from './components/bottom-nav';
 import { createClient } from '@/utils/supabase/server';
 import Background from './components/background';
@@ -28,7 +28,7 @@ export default async function RootLayout({
 
 	const { data: profile } = await supabase
 	.from('profiles')
-	.select(`id, full_name, username, avatar_url, color`)
+	.select('color')
 	.eq('id', session?.user.id)
 	.single();
 

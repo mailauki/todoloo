@@ -5,7 +5,7 @@ import Main from './components/main';
 import Todos from './[todos]/todos';
 import { redirect } from 'next/navigation';
 
-export default async function Home() {
+export default async function HomePage() {
 	const supabase = createClient();
 
   const { data: { session }, error } = await supabase.auth.getSession();
@@ -16,6 +16,9 @@ export default async function Home() {
 	.from('todos')
 	.select()
 	.eq('id', session?.user.id);
+
+	console.log({todos}, {session});
+	// console.log({session});
 
   return (
 		<Main>
