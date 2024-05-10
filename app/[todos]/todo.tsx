@@ -12,13 +12,13 @@ export default function ToDo({ serverTodo }: { serverTodo: Todo }) {
   const supabase = createClient();
 	const [todo, setTodo] = React.useState(serverTodo);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const openMenu = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
@@ -86,8 +86,8 @@ export default function ToDo({ serverTodo }: { serverTodo: Todo }) {
 
 			<TodoMenu
 				anchor={anchorEl}
-				handleClose={handleClose}
-				open={open}
+				handleCloseMenu={handleCloseMenu}
+				openMenu={openMenu}
 				todo={todo}
 			/>
 		</>

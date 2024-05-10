@@ -1,7 +1,12 @@
 import { createClient } from '@/utils/supabase/client';
 import type { Todo } from '@/utils/types';
 
-export const addTodo = async ({ taskText, dueDate }: { taskText: string, dueDate: string }) => {
+export const addTodo = async ({
+	taskText, dueDate,
+}: {
+	taskText: string,
+	dueDate: Date | string,
+}) => {
   const supabase = createClient();
   const { data } = await supabase.auth.getSession();
 	const user = data.session?.user;
@@ -41,5 +46,28 @@ export const toggleTodo = async (todo: Todo) => {
 
 	if (error) {
 		console.log(error.message);
+	}
+};
+
+export const updateTodo = async ({
+	taskText, dueDate, id,
+}: {
+	taskText: string,
+	dueDate: Date | string,
+	id: number,
+}) => {
+  const supabase = createClient();
+  const { data } = await supabase.auth.getSession();
+	const user = data.session?.user;
+	const task = taskText.trim();
+	if (task.length && user) {
+		const { error } = await supabase
+		.from('todos')
+		.update({ task, user_id: user.id, due_date: dueDate })
+		.eq('id', id);
+
+		if (error) {
+			console.log(error.message);
+		}
 	}
 };
