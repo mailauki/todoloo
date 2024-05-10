@@ -4,6 +4,8 @@ import { Toolbar } from '@mui/material';
 import Main from './components/main';
 import Todos from './[todos]/todos';
 import { redirect } from 'next/navigation';
+import BottomDrawer from './components/bottom-drawer';
+import TodoForm from './[todos]/todo-form';
 
 export default async function HomePage() {
 	const supabase = createClient();
@@ -18,12 +20,15 @@ export default async function HomePage() {
 	.select()
 	.eq('user_id', session?.user.id);
 
-	console.log({todos}, {session});
+	// console.log({todos}, {session});
 	// console.log({session});
 
   return (
 		<Main>
 			<Todos serverTodos={todos!} />
+			<BottomDrawer>
+				<TodoForm />
+			</BottomDrawer>
 			<Toolbar sx={{ mt: 6 }} />
 		</Main>
   );

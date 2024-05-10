@@ -7,19 +7,16 @@ import { createClient } from '@/utils/supabase/client';
 import { toggleTodo } from './actions';
 import moment from 'moment';
 import TodoMenu from './todo-menu';
+import { useOpen } from '@/utils/context';
 
 export default function ToDo({ serverTodo }: { serverTodo: Todo }) {
   const supabase = createClient();
 	const [todo, setTodo] = React.useState(serverTodo);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const openMenu = Boolean(anchorEl);
+	const { setAnchor, setSelectedTodo } = useOpen();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
+    setAnchor(event.currentTarget);
+		setSelectedTodo(todo);
   };
 
 	React.useEffect(() => {
@@ -84,12 +81,7 @@ export default function ToDo({ serverTodo }: { serverTodo: Todo }) {
 				</ListItemButton>
 			</Paper>
 
-			<TodoMenu
-				anchor={anchorEl}
-				handleCloseMenu={handleCloseMenu}
-				openMenu={openMenu}
-				todo={todo}
-			/>
+			<TodoMenu />
 		</>
 	);
 }

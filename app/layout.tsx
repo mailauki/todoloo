@@ -3,9 +3,9 @@ import { Paper } from '@mui/material';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Header from './components/header';
-import BottomNav from './components/bottom-nav';
 import { createClient } from '@/utils/supabase/server';
 import Background from './components/background';
+import { OpenProvider } from '@/utils/context';
 // import { cookies } from 'next/headers';
 // import './globals.css';
 
@@ -49,10 +49,11 @@ export default async function RootLayout({
 						// backgroundColor: 'primary.light',
 					}}
 				>
-					<Header />
-					{children}
-					<Background />
-					{session && <BottomNav />}
+					<OpenProvider>
+						<Header />
+						{children}
+						<Background />
+					</OpenProvider>
 				</Paper>
 			</Theme>
     </html>
