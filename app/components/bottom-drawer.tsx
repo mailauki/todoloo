@@ -1,5 +1,4 @@
-import { Close } from '@mui/icons-material';
-import { Container, Drawer, IconButton, Toolbar } from '@mui/material';
+import { Container, Drawer, Toolbar } from '@mui/material';
 
 export default function BottomDrawer({
 	children,
@@ -15,16 +14,11 @@ export default function BottomDrawer({
 			anchor='bottom'
 			onClose={handleClose}
 			open={open}
+			sx={{
+				zIndex: (theme) => theme.zIndex.fab - 1,
+			}}
 		>
-			<Container maxWidth='sm'  sx={{ my: 1 }}>
-				<Toolbar disableGutters sx={{ justifyContent: 'flex-end' }}>
-					<IconButton
-						aria-label='close'
-						onClick={handleClose}
-					>
-						<Close />
-					</IconButton>
-				</Toolbar>
+			<Container maxWidth='sm' sx={{ my: 2 }}>
 				{children}
 				<Toolbar sx={{ mt: 6 }} />
 			</Container>

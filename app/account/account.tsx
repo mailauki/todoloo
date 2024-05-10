@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Card, CardContent, CardHeader, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography, alpha, useTheme } from '@mui/material';
+import { Card, CardContent, CardHeader, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from '@mui/material';
 import { ChevronRight, Edit, Logout, Mail } from '@mui/icons-material';
 import Main from '../components/main';
 import AccountForm from './account-form';
@@ -12,14 +12,14 @@ import { createClient } from '@/utils/supabase/client';
 
 export default function Account({ user, serverProfile }: { user: User | null, serverProfile: Profile }) {
 	const [profile, setProfile] = React.useState(serverProfile);
-	const {full_name, username, avatar_url, color} = profile;
+	// const {full_name, username, avatar_url, color} = profile;
+	const {username, avatar_url} = profile;
 	const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
 	const supabase = createClient();
 
-	console.log({user});
-	console.log({profile});
-	console.log({full_name}, {username}, {avatar_url}, {color});
+	// console.log({user});
+	// console.log({profile});
+	// console.log({full_name}, {username}, {avatar_url}, {color});
 
   // const handleClick = () => {
   //   setOpen(!open);
@@ -71,8 +71,7 @@ export default function Account({ user, serverProfile }: { user: User | null, se
 					<Card
 						elevation={0}
 						sx={{
-							// backgroundColor: 'primary.lighter',
-							backgroundColor: alpha(theme.palette.background.paper, 0.45),
+							backgroundColor: 'card.paper',
 						}}
 					>
 						<CardHeader

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 // import type { Palette } from '@mui/material';
-import { ThemeProvider, createTheme, useMediaQuery } from '@mui/material';
+import { ThemeProvider, alpha, createTheme, useMediaQuery } from '@mui/material';
 import { createClient } from './supabase/client';
 import { amber, blue, blueGrey, cyan, deepOrange, deepPurple, green, grey, indigo, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow } from '@mui/material/colors';
 import { SnackbarProvider } from 'notistack';
@@ -19,10 +19,12 @@ declare module '@mui/material/styles' {
 
   interface Palette {
     tertiary: Palette['primary'];
+		card: Palette['background'];
   }
 
   interface PaletteOptions {
-    tertiary?: Palette['tertiary'];
+    tertiary?: PaletteOptions['primary'];
+		card?: PaletteOptions['background'];
   }
 }
 
@@ -42,7 +44,7 @@ export default function Theme({
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const supabase = createClient();
   const [colorLabel, setColorLabel] = React.useState<string | null>(profileColor||null);
-	const black = {300: grey[700], 400: grey[800], 500: '#333', 600: grey[900], 700: '#111', 800: '#000'};
+	const black = {300: grey[700], 400: grey[800], 500: '#333', 600: grey[900], 700: '#111', 800: '#121212', 900: '#000'};
   const [color, setColor] = React.useState<ColorsType|BlackType>(black);
   const [secondaryColor, setSecondaryColor] = React.useState<ColorsType|BlackType>(blueGrey);
   const [tertiaryColor, setTertiaryColor] = React.useState<ColorsType|BlackType>(grey);
@@ -166,6 +168,10 @@ export default function Theme({
 						light: prefersDarkMode ? tertiaryColor[400] : tertiaryColor[300],
 						dark: prefersDarkMode ? tertiaryColor[800] : tertiaryColor[700],
 						contrastText: 'rgba(0, 0, 0, 0.87)',
+					},
+					card: {
+						paper: prefersDarkMode ? alpha(black[800], 0.2) : alpha(grey[50], 0.2),
+						default: prefersDarkMode ? alpha(black[800], 0.45) : alpha(grey[50], 0.45),
 					},
 				},
 			}),

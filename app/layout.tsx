@@ -32,6 +32,8 @@ export default async function RootLayout({
 	.eq('id', session?.user.id)
 	.single();
 
+	// if (!profile) return <p>Loading</p>;
+
   return (
     <html lang='en'>
 			<Theme profileColor={profile?.color||null}>

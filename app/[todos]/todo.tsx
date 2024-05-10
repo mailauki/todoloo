@@ -2,7 +2,7 @@
 import React from 'react';
 import type { Todo } from '@/utils/types';
 import { MoreVert } from '@mui/icons-material';
-import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Typography, alpha } from '@mui/material';
+import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Typography } from '@mui/material';
 import { createClient } from '@/utils/supabase/client';
 import { toggleTodo } from './actions';
 import moment from 'moment';
@@ -55,7 +55,7 @@ export default function ToDo({ serverTodo }: { serverTodo: Todo }) {
 					padding: 0,
 					marginBottom: 2,
 					overflow: 'hidden',
-					backgroundColor: (theme) => todo.is_complete ? alpha(theme.palette.background.paper, 0.2) : alpha(theme.palette.background.paper, 0.45),
+					backgroundColor: todo.is_complete ? 'card.paper' : 'card.default',
 					'& #due-date': {
 						color: todo.is_complete ? 'text.disabled' : 'text.secondary',
 						display: 'none',

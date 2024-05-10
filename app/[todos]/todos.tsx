@@ -9,10 +9,11 @@ import moment from 'moment';
 export default function Todos({ serverTodos }: { serverTodos: Todo[] }) {
   const supabase = createClient();
 	const [todos, setTodos] = React.useState(serverTodos);
-	const today = new Date().toISOString().substring(0, 10);
+	// const today = new Date().toISOString().substring(0, 10);
+	const today = moment().format('YYYY-MM-DD');
 	const todosDueToday = todos?.filter((todo) => todo.due_date === today);
 	const todosPastDue = todos?.filter((todo) => todo.due_date !== today && moment().diff(todo.due_date) > 0);
-	const todosDueLater = todos?.filter((todo) => moment().diff(todo.due_date) < 0);
+	const todosDueLater = todos?.filter((todo) => todo.due_date !== today && moment().diff(todo.due_date) < 0);
 
 	React.useEffect(() => {
 		const channel = supabase.channel('realtime todos')
@@ -28,8 +29,7 @@ export default function Todos({ serverTodos }: { serverTodos: Todo[] }) {
 	console.log({todosDueToday}, {todosPastDue}, {todosDueLater});
 	console.log({todos}, {serverTodos});
 
-	if (!todos || (todosDueToday.length > 0 && todosPastDue.length > 0 && todosDueLater.length > 0)) return <Typography variant='h6'>No ToDos</Typography>;
-
+	if (!todos || (todosDueToday.length < 0 && todosPastDue.length < 0 && todosDueLater.length < 0)) return <Typography variant='h6'>No Tasks</Typography>;
 
 	return (
 		<>

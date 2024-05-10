@@ -9,13 +9,14 @@ export default async function HomePage() {
 	const supabase = createClient();
 
   const { data: { session }, error } = await supabase.auth.getSession();
+	console.log({session});
 
 	if (!session || error) redirect('/login');
 
 	const { data: todos } = await supabase
 	.from('todos')
 	.select()
-	.eq('id', session?.user.id);
+	.eq('user_id', session?.user.id);
 
 	console.log({todos}, {session});
 	// console.log({session});
