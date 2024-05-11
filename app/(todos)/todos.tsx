@@ -6,7 +6,11 @@ import { List, Typography } from '@mui/material';
 import ToDo from './todo';
 import moment from 'moment';
 
-export default function Todos({ serverTodos }: { serverTodos: Todo[] }) {
+export default function Todos({
+	serverTodos,
+}: {
+	serverTodos: Todo[],
+}) {
   const supabase = createClient();
 	const [todos, setTodos] = React.useState(serverTodos);
 	const today = moment().format('YYYY-MM-DD');
@@ -44,7 +48,7 @@ export default function Todos({ serverTodos }: { serverTodos: Todo[] }) {
 				<List
 					subheader={
 						<Typography
-							color='background.paper'
+							color='text.secondary'
 							sx={{ mb: 1 }}
 							variant='h6'
 						>
@@ -54,7 +58,7 @@ export default function Todos({ serverTodos }: { serverTodos: Todo[] }) {
 					sx={{ width: '100%' }}
 				>
 					{todosDueToday.map((todo) => (
-						<ToDo key={todo.id} serverTodo={todo} />
+						<ToDo key={todo.id} todo={todo} />
 					))}
 				</List>
 			)}
@@ -63,7 +67,7 @@ export default function Todos({ serverTodos }: { serverTodos: Todo[] }) {
 				<List
 					subheader={
 						<Typography
-							color='background.paper'
+							color='text.secondary'
 							sx={{ mb: 1 }}
 							variant='h6'
 						>
@@ -73,7 +77,7 @@ export default function Todos({ serverTodos }: { serverTodos: Todo[] }) {
 					sx={{ width: '100%' }}
 				>
 					{todosPastDue.map((todo) => (
-						<ToDo key={todo.id} serverTodo={todo} />
+						<ToDo key={todo.id} todo={todo} />
 					))}
 				</List>
 			)}
@@ -82,7 +86,7 @@ export default function Todos({ serverTodos }: { serverTodos: Todo[] }) {
 				<List
 					subheader={
 						<Typography
-							color='background.paper'
+							color='text.secondary'
 							sx={{ mb: 1 }}
 							variant='h6'
 						>
@@ -92,7 +96,7 @@ export default function Todos({ serverTodos }: { serverTodos: Todo[] }) {
 					sx={{ width: '100%' }}
 				>
 					{todosDueLater.map((todo) => (
-						<ToDo key={todo.id} serverTodo={todo} />
+						<ToDo key={todo.id} todo={todo} />
 					))}
 				</List>
 			)}

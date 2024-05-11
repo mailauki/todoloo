@@ -44,7 +44,7 @@ export default function AccountForm({
 				<Button
 					// disabled={loading}
 					fullWidth
-					onClick={() => updateProfile({ full_name, username, avatar_url: profile.avatar_url, color: profile.color })}
+					onClick={() => updateProfile({ full_name, username })}
 					size='large'
 					variant='contained'
 				>

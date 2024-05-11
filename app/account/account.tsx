@@ -8,7 +8,7 @@ import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/app/_utils/types';
 import AvatarDL from './avatar-dl';
 import { createClient } from '@/app/_utils/supabase/client';
-import { updateProfile } from './actions';
+import { updateAvatar, updateColor } from './actions';
 import AvatarForm from './avatar-form';
 import { useOpen } from '@/app/_utils/context';
 import ColorPicker from '../_components/color-picker';
@@ -19,16 +19,14 @@ export default function Account({
 	user: User | null,
 	serverProfile: Profile,
 }) {
+	const supabase = createClient();
 	const [profile, setProfile] = React.useState(serverProfile);
-	// const {full_name, username, avatar_url, color} = profile;
 	const {username, avatar_url} = profile;
 	const { openProfileUpdate, setOpenProfileUpdate, openProfileColor, setOpenProfileColor, openProfileSettings, setOpenProfileSettings } = useOpen();
-	const supabase = createClient();
-	const [showDates, setShowDates] = React.useState(false);
+	const [showDates, setShowDates] = React.useState<boolean|undefined>(profile.settings?.show_dates||true);
 
 	// console.log({user});
 	// console.log({profile});
-	// console.log({full_name}, {username}, {avatar_url}, {color});
 
 	const handleOpenUpdate = () => {
     setOpenProfileUpdate(true);
@@ -72,7 +70,7 @@ export default function Account({
 							p: 0.5,
 						}}
 					>
-						<AvatarDL url={avatar_url} />
+						<AvatarDL url={avatar_url!} />
 					</Paper>
 				</Stack>
 
@@ -157,19 +155,25 @@ export default function Account({
 						</ListItem>
 
 						<ListItem
+							disablePadding
 							secondaryAction={
-								<Typography
-									color='text.secondary'
-									variant='subtitle2'
-								>
-									system
-								</Typography>
+								<Stack direction='row' spacing={1}>
+									<Typography
+										color='text.secondary'
+										variant='subtitle2'
+									>
+										{profile.settings?.theme_mode||'system'}
+									</Typography>
+									<ChevronRight />
+								</Stack>
 							}
 						>
-							<ListItemIcon>
-								<NightsStay />
-							</ListItemIcon>
-							<ListItemText primary='Theme' />
+							<ListItemButton disabled>
+								<ListItemIcon>
+									<NightsStay />
+								</ListItemIcon>
+								<ListItemText primary='Theme' />
+							</ListItemButton>
 						</ListItem>
 
 						<Divider sx={{ my: 2 }} />
@@ -203,11 +207,10 @@ export default function Account({
 				>
 					<AvatarForm
 						onUpload={(url: string) => {
-							console.log(url);
-							updateProfile({ full_name: profile.full_name, username: profile.username, avatar_url: url, color: profile.color });
+							updateAvatar({ avatar_url: url });
 						}}
 						uid={user?.id ?? null}
-						url={avatar_url}
+						url={avatar_url!}
 					/>
 				</Stack>
 				<Card
@@ -237,16 +240,11 @@ export default function Account({
 						backgroundColor: 'card.paper',
 					}}
 				>
-					<CardHeader
-						sx={{ textAlign: 'center' }}
-						title='Profile Color'
-					/>
 					<CardContent>
 						<ColorPicker
-							color={profile.color}
-							onColorChange={(color_code) => {
-								console.log(color_code);
-								updateProfile({ full_name: profile.full_name, username: profile.username, avatar_url: profile.avatar_url, color: color_code });
+							color={profile.color!}
+							onColorChange={(color) => {
+								updateColor({ color });
 							}}
 						/>
 					</CardContent>
@@ -281,11 +279,17 @@ export default function Account({
 									inputProps={{
 										'aria-labelledby': 'switch-list-label-wifi',
 									}}
-									onChange={() => setShowDates(!showDates)}
+									onChange={() => {
+										setShowDates(!showDates);
+									}}
 								/>
 							}
 						>
-							<ListItemButton onClick={() => setShowDates(!showDates)}>
+							<ListItemButton
+								onClick={() => {
+									setShowDates(!showDates);
+								}}
+							>
 								<ListItemIcon>
 									<CalendarToday />
 								</ListItemIcon>
