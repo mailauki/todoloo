@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import React from 'react';
 import { type User } from '@supabase/supabase-js';
@@ -27,7 +28,7 @@ export default function AccountForm({
 				alignItems='center'
 				spacing={2}
 			>
-				<AvatarForm
+				{/* <AvatarForm
 					onUpload={(url) => {
 						console.log(url);
 						setAvatarUrl(url);
@@ -35,16 +36,16 @@ export default function AccountForm({
 					}}
 					uid={user?.id ?? null}
 					url={avatar_url}
-				/>
+				/> */}
 
-				<ColorPicker
+				{/* <ColorPicker
 					color={color}
 					onColorChange={(color_code) => {
 						console.log(color_code);
 						setColor(color_code);
 						updateProfile({ full_name, username, avatar_url, color: color_code });
 					}}
-				/>
+				/> */}
 
 				<TextField
 					fullWidth

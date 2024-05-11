@@ -1,22 +1,25 @@
 'use client';
 import React from 'react';
-import { Card, CardContent, CardHeader, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from '@mui/material';
-import { ChevronRight, Edit, Logout, Mail } from '@mui/icons-material';
+import { Button, Card, CardContent, CardHeader, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from '@mui/material';
+import { ChevronRight, Edit, Logout, Mail, Palette } from '@mui/icons-material';
 import Main from '../components/main';
 import AccountForm from './account-form';
-import BottomDrawer from '../components/bottom-drawer';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/utils/types';
 import AvatarDL from './avatar-dl';
 import { createClient } from '@/utils/supabase/client';
+import { updateProfile } from './actions';
+import AvatarForm from './avatar-form';
 
 export default function Account({ user, serverProfile }: { user: User | null, serverProfile: Profile }) {
 	const [profile, setProfile] = React.useState(serverProfile);
 	// const {full_name, username, avatar_url, color} = profile;
 	const {username, avatar_url} = profile;
-	const [open, setOpen] = React.useState(false);
+	const [openUpdate, setOpenUpdate] = React.useState(false);
+	const [openColor, setOpenColor] = React.useState(false);
 	const supabase = createClient();
 
+	console.log(openColor);
 	// console.log({user});
 	// console.log({profile});
 	// console.log({full_name}, {username}, {avatar_url}, {color});
@@ -25,13 +28,21 @@ export default function Account({ user, serverProfile }: { user: User | null, se
   //   setOpen(!open);
   // };
 
-	const handleClickOpen = () => {
-    setOpen(true);
+	const handleOpenUpdate = () => {
+    setOpenUpdate(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
   };
+
+	const handleOpenColor = () => {
+    setOpenColor(true);
+  };
+
+  // const handleCloseColor = () => {
+  //   setOpenColor(false);
+  // };
 
 	React.useEffect(() => {
 		const channel = supabase.channel('realtime profile')
@@ -50,116 +61,143 @@ export default function Account({ user, serverProfile }: { user: User | null, se
 	return (
 		<>
 			<Main>
-				<Stack spacing={2}>
-					<Stack
-						alignItems='center'
-						direction='row'
-						justifyContent='center'
-					>
-						<Paper
+				{!openUpdate ? (
+					<Stack spacing={2}>
+						<Stack
+							alignItems='center'
+							direction='row'
+							justifyContent='center'
+						>
+							<Paper
+								elevation={0}
+								sx={{
+									width: 'fit-content',
+									borderRadius: '50%',
+									p: 0.5,
+								}}
+							>
+								<AvatarDL url={avatar_url} />
+							</Paper>
+						</Stack>
+
+						<Card
 							elevation={0}
 							sx={{
-								width: 'fit-content',
-								borderRadius: '50%',
-								p: 0.5,
+								backgroundColor: 'card.paper',
 							}}
 						>
-							<AvatarDL url={avatar_url} />
-						</Paper>
-					</Stack>
-
-					<Card
-						elevation={0}
-						sx={{
-							backgroundColor: 'card.paper',
-						}}
-					>
-						<CardHeader
-							sx={{ textAlign: 'center' }}
-							title={username! || user?.email}
-						/>
-						<List
-							component={CardContent}
-							disablePadding
-						>
-							<ListItem
-								secondaryAction={
-									<Typography
-										color='text.secondary'
-										variant='subtitle2'
-									>
-										{user?.email}
-									</Typography>
-								}
-							>
-								<ListItemIcon>
-									<Mail />
-								</ListItemIcon>
-								<ListItemText primary='Email' />
-							</ListItem>
-
-							<ListItem
+							<CardHeader
+								sx={{ textAlign: 'center' }}
+								title={username! || user?.email}
+							/>
+							<List
+								component={CardContent}
 								disablePadding
-								secondaryAction={
-									<ChevronRight />
-								}
 							>
-								<ListItemButton onClick={handleClickOpen}>
+								<ListItem
+									secondaryAction={
+										<Typography
+											color='text.secondary'
+											variant='subtitle2'
+										>
+											{user?.email}
+										</Typography>
+									}
+								>
 									<ListItemIcon>
-										<Edit />
+										<Mail />
 									</ListItemIcon>
-									<ListItemText primary='Update Profile' />
-								</ListItemButton>
-							</ListItem>
+									<ListItemText primary='Email' />
+								</ListItem>
 
-							{/* <ListItem disablePadding>
-								<ListItemButton onClick={handleClick}>
-									<ListItemIcon>
-										<Brush />
-									</ListItemIcon>
-									<ListItemText primary='Color' />
-									{open ? <ExpandLess /> : <ExpandMore />}
-								</ListItemButton>
-							</ListItem>
-							<Collapse in={open} timeout='auto' unmountOnExit>
-								<List disablePadding>
-									<ListItem sx={{ justifyContent: 'center' }}>
-										<ColorPicker
-											color={color}
-											onColorChange={(color_code) => {
-												console.log(color_code);
-												setColor(color_code);
-												updateProfile({ fullname, username, avatar_url, color: color_code });
-											}}
-										/>
-									</ListItem>
-								</List>
-							</Collapse> */}
+								<ListItem
+									disablePadding
+									secondaryAction={
+										<ChevronRight />
+									}
+								>
+									<ListItemButton onClick={handleOpenUpdate}>
+										<ListItemIcon>
+											<Edit />
+										</ListItemIcon>
+										<ListItemText primary='Update Profile' />
+									</ListItemButton>
+								</ListItem>
 
-							<Divider sx={{ my: 2 }} />
+								<ListItem
+									disablePadding
+									secondaryAction={
+										<ChevronRight />
+									}
+								>
+									<ListItemButton onClick={handleOpenColor}>
+										<ListItemIcon>
+											<Palette />
+										</ListItemIcon>
+										<ListItemText primary='Color' />
+									</ListItemButton>
+								</ListItem>
 
-							<ListItem
-								action='/auth/signout'
-								component='form'
-								disablePadding
-								method='post'
-							>
-								<ListItemButton component='button' type='submit'>
-									<ListItemIcon>
-										<Logout />
-									</ListItemIcon>
-									<ListItemText primary='Signout' />
-								</ListItemButton>
-							</ListItem>
-						</List>
+								<Divider sx={{ my: 2 }} />
+
+								<ListItem
+									action='/auth/signout'
+									component='form'
+									disablePadding
+									method='post'
+								>
+									<ListItemButton component='button' type='submit'>
+										<ListItemIcon>
+											<Logout />
+										</ListItemIcon>
+										<ListItemText primary='Signout' />
+									</ListItemButton>
+								</ListItem>
+							</List>
 					</Card>
 				</Stack>
+				) : (
+					<Stack spacing={2}>
+						<Stack
+							alignItems='center'
+							direction='row'
+							justifyContent='center'
+						>
+							<AvatarForm
+								onUpload={(url: string) => {
+									console.log(url);
+									// setAvatarUrl(url);
+									updateProfile({ full_name: profile.full_name, username: profile.username, avatar_url: url, color: profile.color });
+								}}
+								uid={user?.id ?? null}
+								url={avatar_url}
+							/>
+						</Stack>
+						<Card
+							elevation={0}
+							sx={{
+								backgroundColor: 'card.paper',
+							}}
+						>
+							<CardHeader
+								sx={{ textAlign: 'center' }}
+								title={username! || user?.email}
+							/>
+							<CardContent>
+								<Button
+									color='info'
+									onClick={handleCloseUpdate}
+									sx={{  mb: 2 }}
+								>
+									Close
+								</Button>
+								<AccountForm profile={profile} user={user} />
+							</CardContent>
+						</Card>
+					</Stack>
+				)}
 				<Toolbar sx={{ mt: 6 }} />
 			</Main>
-
-			<BottomDrawer handleClose={handleClose} open={open}>
-				<AccountForm profile={profile} user={user} />
-			</BottomDrawer>
 		</>
 	);
 }
