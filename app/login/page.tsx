@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, IconButton, InputAdornment, Link as Anchor, Stack, TextField, Typography } from '@mui/material';
 import { login, signup } from './actions';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import Main from '../components/main';
+import Main from '../_components/main';
 
 export default function LoginPage() {
 	const [showPassword, setShowPassword] = React.useState(false);

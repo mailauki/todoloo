@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/app/_utils/supabase/client';
 import { Badge, IconButton, Paper, Stack } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import AvatarDL from './avatar-dl';

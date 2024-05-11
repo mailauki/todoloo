@@ -2,7 +2,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import { ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { deleteTodo } from './actions';
 import React from 'react';
-import { useOpen } from '@/utils/context';
+import { useOpen } from '@/app/_utils/context';
 
 export default function TodoMenu() {
 	const { anchor, openTodoMenu, handleCloseMenu, selectedTodo, setOpenTodoEdit } = useOpen();

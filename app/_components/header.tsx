@@ -1,5 +1,5 @@
 'use client';
-import { useOpen } from '@/utils/context';
+import { useOpen } from '@/app/_utils/context';
 import { AccountCircle, ChevronLeft } from '@mui/icons-material';
 import { AppBar, Link as Anchor, Toolbar, IconButton } from '@mui/material';
 import Link from 'next/link';
@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 
 export default function Header() {
 	const pathname = usePathname();
-	const { openProfileUpdate, setOpenProfileUpdate, openProfileColor, setOpenProfileColor } = useOpen();
+	const { openProfileUpdate, setOpenProfileUpdate, openProfileColor, setOpenProfileColor, openProfileSettings, setOpenProfileSettings } = useOpen();
 
 	return (
 		<AppBar
@@ -24,12 +24,13 @@ export default function Header() {
 					alignItems: 'center',
 				}}
 			>
-				{openProfileUpdate||openProfileColor ? (
+				{openProfileUpdate||openProfileColor||openProfileSettings ? (
 					<IconButton
 						color='inherit'
 						onClick={() => {
 							if (openProfileUpdate) setOpenProfileUpdate(false);
 							else if (openProfileColor) setOpenProfileColor(false);
+							else if (openProfileSettings) setOpenProfileSettings(false);
 						}}
 					>
 						<ChevronLeft />

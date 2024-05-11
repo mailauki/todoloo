@@ -13,6 +13,8 @@ type InitialStateType = {
 	setOpenProfileUpdate: React.Dispatch<boolean>,
 	openProfileColor: boolean,
 	setOpenProfileColor: React.Dispatch<boolean>,
+	openProfileSettings: boolean,
+	setOpenProfileSettings: React.Dispatch<boolean>,
 	anchor: HTMLElement|null,
 	setAnchor: React.Dispatch<HTMLElement|null>,
 	openTodoMenu: boolean,
@@ -31,6 +33,8 @@ const initialState = {
 	setOpenProfileUpdate: () => null,
 	openProfileColor: false,
 	setOpenProfileColor: () => null,
+	openProfileSettings: false,
+	setOpenProfileSettings: () => null,
 	anchor: null,
 	setAnchor: () => null,
 	openTodoMenu: false,
@@ -50,6 +54,7 @@ export function OpenProvider({
 	const [selectedTodo, setSelectedTodo] = useState<Todo|null>(null);
 	const [openProfileUpdate, setOpenProfileUpdate] = useState(false);
 	const [openProfileColor, setOpenProfileColor] = useState(false);
+	const [openProfileSettings, setOpenProfileSettings] = useState(false);
 	const [anchor, setAnchor] = useState<HTMLElement|null>(null);
   const openTodoMenu = Boolean(anchor);
 
@@ -74,6 +79,8 @@ export function OpenProvider({
 				setOpenProfileUpdate,
 				openProfileColor,
 				setOpenProfileColor,
+				openProfileSettings,
+				setOpenProfileSettings,
 				anchor,
 				setAnchor,
 				openTodoMenu,

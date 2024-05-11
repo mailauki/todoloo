@@ -1,11 +1,11 @@
-import Theme from '@/utils/theme';
+import Theme from '@/app/_utils/theme';
 import { Paper } from '@mui/material';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Header from './components/header';
-import { createClient } from '@/utils/supabase/server';
-import Background from './components/background';
-import { OpenProvider } from '@/utils/context';
+import Header from './_components/header';
+import { createClient } from '@/app/_utils/supabase/server';
+import Background from './_components/background';
+import { OpenProvider } from '@/app/_utils/context';
 // import { cookies } from 'next/headers';
 // import './globals.css';
 

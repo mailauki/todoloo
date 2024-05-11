@@ -1,11 +1,11 @@
 // import styles from './page.module.css';
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@/app/_utils/supabase/server';
 import { Toolbar } from '@mui/material';
-import Main from './components/main';
-import Todos from './[todos]/todos';
+import Main from './_components/main';
+import Todos from './(todos)/todos';
 import { redirect } from 'next/navigation';
-import BottomDrawer from './components/bottom-drawer';
-import TodoForm from './[todos]/todo-form';
+import BottomDrawer from './_components/bottom-drawer';
+import TodoForm from './(todos)/todo-form';
 
 export default async function HomePage() {
 	const supabase = createClient();

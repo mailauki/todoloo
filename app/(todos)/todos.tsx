@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import type { Todo } from '@/utils/types';
-import { createClient } from '@/utils/supabase/client';
+import type { Todo } from '@/app/_utils/types';
+import { createClient } from '@/app/_utils/supabase/client';
 import { List, Typography } from '@mui/material';
 import ToDo from './todo';
 import moment from 'moment';

@@ -1,5 +1,5 @@
-import { createClient } from '@/utils/supabase/client';
-import type { Todo } from '@/utils/types';
+import { createClient } from '@/app/_utils/supabase/client';
+import type { Todo } from '@/app/_utils/types';
 
 export const addTodo = async ({
 	taskText, dueDate,

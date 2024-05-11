@@ -1,13 +1,13 @@
 'use client';
 import React from 'react';
-import type { Todo } from '@/utils/types';
+import type { Todo } from '@/app/_utils/types';
 import { MoreVert } from '@mui/icons-material';
 import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Typography } from '@mui/material';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/app/_utils/supabase/client';
 import { toggleTodo } from './actions';
 import moment from 'moment';
 import TodoMenu from './todo-menu';
-import { useOpen } from '@/utils/context';
+import { useOpen } from '@/app/_utils/context';
 
 export default function ToDo({ serverTodo }: { serverTodo: Todo }) {
   const supabase = createClient();

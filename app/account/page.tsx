@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@/app/_utils/supabase/server';
 import Account from './account';
 
 export default async function AccountPage() {

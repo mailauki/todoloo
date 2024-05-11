@@ -1,17 +1,17 @@
 'use client';
 import React from 'react';
-import { Card, CardContent, CardHeader, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from '@mui/material';
-import { ChevronRight, Edit, Logout, Mail, NightsStay, Palette, Settings } from '@mui/icons-material';
-import Main from '../components/main';
+import { Card, CardContent, CardHeader, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Switch, Toolbar, Typography } from '@mui/material';
+import { CalendarToday, ChevronRight, Edit, Logout, Mail, NightsStay, Palette, Settings } from '@mui/icons-material';
+import Main from '../_components/main';
 import AccountForm from './account-form';
 import type { User } from '@supabase/supabase-js';
-import type { Profile } from '@/utils/types';
+import type { Profile } from '@/app/_utils/types';
 import AvatarDL from './avatar-dl';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/app/_utils/supabase/client';
 import { updateProfile } from './actions';
 import AvatarForm from './avatar-form';
-import { useOpen } from '@/utils/context';
-import ColorPicker from '../components/color-picker';
+import { useOpen } from '@/app/_utils/context';
+import ColorPicker from '../_components/color-picker';
 
 export default function Account({
 	user, serverProfile,
@@ -22,8 +22,9 @@ export default function Account({
 	const [profile, setProfile] = React.useState(serverProfile);
 	// const {full_name, username, avatar_url, color} = profile;
 	const {username, avatar_url} = profile;
-	const { openProfileUpdate, setOpenProfileUpdate, openProfileColor, setOpenProfileColor } = useOpen();
+	const { openProfileUpdate, setOpenProfileUpdate, openProfileColor, setOpenProfileColor, openProfileSettings, setOpenProfileSettings } = useOpen();
 	const supabase = createClient();
+	const [showDates, setShowDates] = React.useState(false);
 
 	// console.log({user});
 	// console.log({profile});
@@ -36,6 +37,10 @@ export default function Account({
 	const handleOpenColor = () => {
     setOpenProfileColor(true);
   };
+
+	const handleOpenSettings = () => {
+		setOpenProfileSettings(true);
+	};
 
 	React.useEffect(() => {
 		const channel = supabase.channel('realtime profile')
@@ -121,7 +126,7 @@ export default function Account({
 								<ChevronRight />
 							}
 						>
-							<ListItemButton disabled>
+							<ListItemButton onClick={handleOpenSettings}>
 								<ListItemIcon>
 									<Settings />
 								</ListItemIcon>
@@ -250,10 +255,53 @@ export default function Account({
 		);
 	}
 
+	function ProfileSettings() {
+		return (
+			<Stack spacing={2}>
+				<Card
+					elevation={0}
+					sx={{
+						backgroundColor: 'card.paper',
+					}}
+				>
+					<CardHeader
+						sx={{ textAlign: 'center' }}
+						title='App Settings'
+					/>
+					<List
+						component={CardContent}
+						disablePadding
+					>
+						<ListItem
+							disablePadding
+							secondaryAction={
+								<Switch
+									checked={showDates}
+									edge='end'
+									inputProps={{
+										'aria-labelledby': 'switch-list-label-wifi',
+									}}
+									onChange={() => setShowDates(!showDates)}
+								/>
+							}
+						>
+							<ListItemButton onClick={() => setShowDates(!showDates)}>
+								<ListItemIcon>
+									<CalendarToday />
+								</ListItemIcon>
+								<ListItemText primary='Show dates' />
+							</ListItemButton>
+						</ListItem>
+					</List>
+				</Card>
+			</Stack>
+		);
+	}
+
 	return (
 		<>
 			<Main>
-				{(!openProfileUpdate&&!openProfileColor) && (
+				{(!openProfileUpdate&&!openProfileColor&&!openProfileSettings) && (
 					<Profile />
 				)}
 				{openProfileUpdate && (
@@ -261,6 +309,9 @@ export default function Account({
 				)}
 				{openProfileColor && (
 					<UpdateColor />
+				)}
+				{openProfileSettings && (
+					<ProfileSettings />
 				)}
 				<Toolbar sx={{ mt: 6 }} />
 			</Main>

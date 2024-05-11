@@ -4,8 +4,8 @@ import React from 'react';
 import { type User } from '@supabase/supabase-js';
 import { Button, Stack, TextField } from '@mui/material';
 import AvatarForm from './avatar-form';
-import ColorPicker from '../components/color-picker';
-import type { Profile } from '@/utils/types';
+import ColorPicker from '../_components/color-picker';
+import type { Profile } from '@/app/_utils/types';
 import { updateProfile } from './actions';
 
 export default function AccountForm({

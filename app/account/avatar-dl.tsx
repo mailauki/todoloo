@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar } from '@mui/material';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/app/_utils/supabase/client';
 
 
 export default function AvatarDL({ url }: { url: string | null }) {
