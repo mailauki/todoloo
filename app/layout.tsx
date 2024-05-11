@@ -6,6 +6,8 @@ import Header from './_components/header';
 import { createClient } from '@/app/_utils/supabase/server';
 import Background from './_components/background';
 import { OpenProvider } from '@/app/_utils/context';
+import { Suspense } from 'react';
+import LoadingBackground from './(loading)/background';
 // import { cookies } from 'next/headers';
 // import './globals.css';
 
@@ -45,14 +47,14 @@ export default async function RootLayout({
 					sx={{
 						m: 0,
 						height: '100vh',
-						// backgroundColor: 'primary.extraLight',
-						// backgroundColor: 'primary.light',
 					}}
 				>
 					<OpenProvider>
 						<Header />
 						{children}
-						<Background />
+						<Suspense fallback={<LoadingBackground />}>
+							<Background />
+						</Suspense>
 					</OpenProvider>
 				</Paper>
 			</Theme>

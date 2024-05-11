@@ -52,7 +52,7 @@ export default function ToDo({ serverTodo }: { serverTodo: Todo }) {
 					padding: 0,
 					marginBottom: 2,
 					overflow: 'hidden',
-					backgroundColor: todo.is_complete ? 'card.paper' : 'card.default',
+					backgroundColor: todo.is_complete ? 'card.paper' : 'card.done',
 					'& #due-date': {
 						color: todo.is_complete ? 'text.disabled' : 'text.secondary',
 						display: 'none',

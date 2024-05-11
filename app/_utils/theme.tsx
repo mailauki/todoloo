@@ -19,12 +19,12 @@ declare module '@mui/material/styles' {
 
   interface Palette {
     tertiary: Palette['primary'];
-		card: Palette['background'];
+		card: { paper: string, done: string };
   }
 
   interface PaletteOptions {
     tertiary?: PaletteOptions['primary'];
-		card?: PaletteOptions['background'];
+		card?: { paper: string, done: string };
   }
 }
 
@@ -171,7 +171,7 @@ export default function Theme({
 					},
 					card: {
 						paper: prefersDarkMode ? alpha(black[800], 0.2) : alpha(grey[50], 0.2),
-						default: prefersDarkMode ? alpha(black[800], 0.45) : alpha(grey[50], 0.45),
+						done: prefersDarkMode ? alpha(black[800], 0.45) : alpha(grey[50], 0.45),
 					},
 				},
 			}),

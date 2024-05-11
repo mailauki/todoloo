@@ -175,7 +175,7 @@ export default function Account({
 						<Divider sx={{ my: 2 }} />
 
 						<ListItem
-							action='/auth/signout'
+							action='/signout'
 							component='form'
 							disablePadding
 							method='post'
@@ -221,7 +221,7 @@ export default function Account({
 						title='Update Profile'
 					/>
 					<CardContent>
-						<AccountForm profile={profile} user={user} />
+						<AccountForm profile={profile} />
 					</CardContent>
 				</Card>
 			</Stack>
