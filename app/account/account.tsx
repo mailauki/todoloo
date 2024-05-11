@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { Card, CardContent, CardHeader, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from '@mui/material';
-import { ChevronRight, Edit, Logout, Mail, NightsStay, Palette } from '@mui/icons-material';
+import { ChevronRight, Edit, Logout, Mail, NightsStay, Palette, Settings } from '@mui/icons-material';
 import Main from '../components/main';
 import AccountForm from './account-form';
 import type { User } from '@supabase/supabase-js';
@@ -112,6 +112,20 @@ export default function Account({
 									<Edit />
 								</ListItemIcon>
 								<ListItemText primary='Update Profile' />
+							</ListItemButton>
+						</ListItem>
+
+						<ListItem
+							disablePadding
+							secondaryAction={
+								<ChevronRight />
+							}
+						>
+							<ListItemButton disabled>
+								<ListItemIcon>
+									<Settings />
+								</ListItemIcon>
+								<ListItemText primary='App Settings' />
 							</ListItemButton>
 						</ListItem>
 

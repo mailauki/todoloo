@@ -13,13 +13,13 @@ export default function Header() {
 		<AppBar
 			// color='inherit'
 			elevation={0}
+			position='fixed'
 			// sx={{ backgroundColor: 'primary.light' }}
 			sx={{ backgroundColor: 'transparent' }}
 		>
 			<Toolbar
 				sx={{
 					display: 'flex',
-					// justifyContent: 'center',
 					justifyContent: 'space-between',
 					alignItems: 'center',
 				}}

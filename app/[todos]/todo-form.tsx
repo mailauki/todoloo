@@ -1,5 +1,5 @@
 'use client';
-import { IconButton, InputAdornment, Paper, TextField } from '@mui/material';
+import { IconButton, InputAdornment, Paper, TextField, useTheme } from '@mui/material';
 import { useOpen } from '@/utils/context';
 import React from 'react';
 import { addTodo, updateTodo } from './actions';
@@ -7,6 +7,7 @@ import moment from 'moment';
 import { Add } from '@mui/icons-material';
 
 export default function TodoForm() {
+	const theme = useTheme();
 	const { openTodoEdit, setOpenTodoEdit, selectedTodo, setOpenTodoAdd } = useOpen();
   const [newTaskText, setNewTaskText] = React.useState(selectedTodo?.task||'');
 	const today = moment().format('YYYY-MM-DD');
@@ -65,7 +66,16 @@ export default function TodoForm() {
 					setNewTaskDueDate(e.target.value);
 				}}
 				placeholder='mm/dd/yyyy'
-				sx={{ '& input': { pr: 2.5, textAlign: 'left' } }}
+				sx={{
+					'& input': {
+						pr: 2.5,
+						textAlign: 'left',
+						colorScheme: theme.palette.mode === 'dark' ? 'dark' : 'light',
+					},
+					'& input::-webkit-date-and-time-value': {
+						textAlign: 'left',
+					},
+				}}
 				type='date'
 				value={newTaskDueDate}
 			/>
