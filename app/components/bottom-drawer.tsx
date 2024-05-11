@@ -44,7 +44,8 @@ export default function BottomDrawer({
 				onClick={handleClick}
 				sx={{
 					display: value === '/' ? 'inline-flex': 'none',
-					position: 'absolute',
+					// position: 'absolute',
+					position: 'fixed',
 					top: 'auto',
 					bottom: 50,
 					left: 0,

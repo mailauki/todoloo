@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import { Button, Card, CardContent, CardHeader, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from '@mui/material';
-import { ChevronRight, Edit, Logout, Mail, Palette } from '@mui/icons-material';
+import { Card, CardContent, CardHeader, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from '@mui/material';
+import { ChevronRight, Edit, Logout, Mail, NightsStay, Palette } from '@mui/icons-material';
 import Main from '../components/main';
 import AccountForm from './account-form';
 import type { User } from '@supabase/supabase-js';
@@ -23,32 +23,18 @@ export default function Account({
 	// const {full_name, username, avatar_url, color} = profile;
 	const {username, avatar_url} = profile;
 	const { openProfileUpdate, setOpenProfileUpdate, openProfileColor, setOpenProfileColor } = useOpen();
-	// const [openUpdate, setOpenUpdate] = React.useState(false);
-	// const [openColor, setOpenColor] = React.useState(false);
 	const supabase = createClient();
 
 	// console.log({user});
 	// console.log({profile});
 	// console.log({full_name}, {username}, {avatar_url}, {color});
 
-  // const handleClick = () => {
-  //   setOpen(!open);
-  // };
-
 	const handleOpenUpdate = () => {
     setOpenProfileUpdate(true);
   };
 
-  const handleCloseUpdate = () => {
-    setOpenProfileUpdate(false);
-  };
-
 	const handleOpenColor = () => {
     setOpenProfileColor(true);
-  };
-
-  const handleCloseColor = () => {
-    setOpenProfileColor(false);
   };
 
 	React.useEffect(() => {
@@ -132,7 +118,15 @@ export default function Account({
 						<ListItem
 							disablePadding
 							secondaryAction={
-								<ChevronRight />
+								<Stack direction='row' spacing={1}>
+									<Typography
+										color='text.secondary'
+										variant='subtitle2'
+									>
+										{profile.color}
+									</Typography>
+									<ChevronRight />
+								</Stack>
 							}
 						>
 							<ListItemButton onClick={handleOpenColor}>
@@ -141,6 +135,22 @@ export default function Account({
 								</ListItemIcon>
 								<ListItemText primary='Color' />
 							</ListItemButton>
+						</ListItem>
+
+						<ListItem
+							secondaryAction={
+								<Typography
+									color='text.secondary'
+									variant='subtitle2'
+								>
+									system
+								</Typography>
+							}
+						>
+							<ListItemIcon>
+								<NightsStay />
+							</ListItemIcon>
+							<ListItemText primary='Theme' />
 						</ListItem>
 
 						<Divider sx={{ my: 2 }} />
@@ -175,7 +185,6 @@ export default function Account({
 					<AvatarForm
 						onUpload={(url: string) => {
 							console.log(url);
-							// setAvatarUrl(url);
 							updateProfile({ full_name: profile.full_name, username: profile.username, avatar_url: url, color: profile.color });
 						}}
 						uid={user?.id ?? null}
@@ -190,16 +199,9 @@ export default function Account({
 				>
 					<CardHeader
 						sx={{ textAlign: 'center' }}
-						title={username! || user?.email}
+						title='Update Profile'
 					/>
 					<CardContent>
-						<Button
-							color='info'
-							onClick={handleCloseUpdate}
-							sx={{ mb: 2 }}
-						>
-							Close
-						</Button>
 						<AccountForm profile={profile} user={user} />
 					</CardContent>
 				</Card>
@@ -216,18 +218,11 @@ export default function Account({
 						backgroundColor: 'card.paper',
 					}}
 				>
-					{/* <CardHeader
+					<CardHeader
 						sx={{ textAlign: 'center' }}
-						title={username! || user?.email}
-					/> */}
+						title='Profile Color'
+					/>
 					<CardContent>
-						<Button
-							color='info'
-							onClick={handleCloseColor}
-							sx={{ mb: 2 }}
-						>
-							Close
-						</Button>
 						<ColorPicker
 							color={profile.color}
 							onColorChange={(color_code) => {
