@@ -15,11 +15,6 @@ export default function ToDo({ todo }: { todo: Todo }) {
     setAnchor(event.currentTarget);
 		setSelectedTodo(todo);
   };
-	const show_dates = true;
-	// const { data: { show_dates } } = await supabase
-	// .from('settings')
-	// .select('show_dates')
-	// .match({ user_id: user.id });
 
 	return (
 		<>
@@ -39,7 +34,7 @@ export default function ToDo({ todo }: { todo: Todo }) {
 				}}
 				variant='outlined'
 			>
-				<ListItemButton dense onClick={() => toggleTodo(todo)} role={undefined}>
+				<ListItemButton dense onClick={() => toggleTodo(todo)}>
 					<ListItemIcon>
 						<Checkbox
 							checked={todo.is_complete}
@@ -55,7 +50,7 @@ export default function ToDo({ todo }: { todo: Todo }) {
 					<ListItemText
 						primary={todo.task}
 						secondary={
-							show_dates && (
+							todo.show_dates && (
 								<Typography id='due-date' variant='caption'>
 									{moment(todo.due_date).format('dddd, MMM D')}
 								</Typography>

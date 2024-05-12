@@ -26,12 +26,12 @@ export default async function RootLayout({
 	// const cookieStore = cookies();
 	const supabase = createClient();
 
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { user } } = await supabase.auth.getUser();
 
 	const { data: profile } = await supabase
 	.from('profiles')
 	.select('color')
-	.eq('id', session?.user.id)
+	.eq('id', user?.id)
 	.single();
 
 	// if (!profile) return <p>Loading</p>;

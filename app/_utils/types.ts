@@ -7,6 +7,7 @@ export interface Todo {
 	is_complete: boolean,
 	due_date: Date | string,
 	created_at?: Date,
+	show_dates?: boolean,
 }
 
 export interface Profile {

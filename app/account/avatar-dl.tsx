@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
-import { Avatar, Skeleton } from '@mui/material';
+import { Avatar } from '@mui/material';
 import { createClient } from '@/app/_utils/supabase/client';
+import LoadingAvatar from '../(loading)/avatar';
 
 
 export default function AvatarDL({ url }: { url: string | null }) {
@@ -31,13 +32,13 @@ export default function AvatarDL({ url }: { url: string | null }) {
   }, [url, supabase]);
 
 	if (loading || !avatarUrl) return (
-		<Skeleton height={100} variant='circular' width={100} />
+		<LoadingAvatar />
 	);
 
 	return (
 		<Suspense
 			fallback={
-				<Skeleton height={100} variant='circular' width={100} />
+				<LoadingAvatar />
 			}
 		>
 			<Avatar

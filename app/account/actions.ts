@@ -15,15 +15,14 @@ export async function updateProfile({
 	full_name: string | null
 }) {
 	const supabase = createClient();
-	const { data } = await supabase.auth.getSession();
-	const user = data.session?.user;
+	const { data: { user } } = await supabase.auth.getUser();
 	try {
 		const { error } = await supabase.from('profiles').upsert({
-			id: user?.id as string,
 			full_name,
 			username,
 			updated_at: new Date().toISOString(),
-		});
+		})
+		.match({ id: user?.id });
 		if (error) throw error;
 		handleSnack('success')();
 	} catch (error) {
@@ -37,14 +36,13 @@ export async function updateAvatar({
 	avatar_url: string | null
 }) {
 	const supabase = createClient();
-	const { data } = await supabase.auth.getSession();
-	const user = data.session?.user;
+	const { data: { user } } = await supabase.auth.getUser();
 	try {
 		const { error } = await supabase.from('profiles').upsert({
-			id: user?.id as string,
 			avatar_url,
 			updated_at: new Date().toISOString(),
-		});
+		})
+		.match({ id: user?.id });
 		if (error) throw error;
 		handleSnack('success')();
 	} catch (error) {
@@ -58,14 +56,14 @@ export async function updateColor({
 	color: string | null
 }) {
 	const supabase = createClient();
-	const { data } = await supabase.auth.getSession();
-	const user = data.session?.user;
+	const { data: { user } } = await supabase.auth.getUser();
 	try {
-		const { error } = await supabase.from('profiles').upsert({
-			id: user?.id as string,
+		const { error } = await supabase.from('profiles')
+		.upsert({
 			color,
 			updated_at: new Date().toISOString(),
-		});
+		})
+		.match({ id: user?.id });
 		if (error) throw error;
 		handleSnack('success')();
 	} catch (error) {
@@ -73,6 +71,21 @@ export async function updateColor({
 	}
 }
 
-export function updateSettings() {
-	console.log('update settings');
+export async function updateSettings({ showDates }: { showDates: boolean }) {
+	console.log('update settings', {showDates});
+	const supabase = createClient();
+	const { data: { user } } = await supabase.auth.getUser();
+	try {
+		const { data, error } = await supabase.from('settings')
+		.update({
+			show_dates: !showDates,
+		})
+		.match({ user_id: user?.id, profile_id: user?.id })
+		.select();
+		if (error) throw error;
+		handleSnack('success')();
+		console.log({data});
+	} catch (error) {
+		handleSnack('error')();
+	}
 }

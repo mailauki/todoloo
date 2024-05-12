@@ -26,10 +26,30 @@ export default async function HomePage() {
 	// const {show_dates} = show_dates!;
 	// console.log({show_dates});
 
+	// const { data: profile } = await supabase
+	// .from('profiles')
+	// .select(`
+	// 	*,
+	// 	todos ( id, task, due_date ),
+	// 	settings ( id, show_dates )
+	// `)
+	// .eq('id', user.id)
+	// .order('due_date', { referencedTable: 'todos', ascending: false })
+	// .single();
+	// console.log({profile});
+	const { data: show_dates } = await supabase
+	.from('settings')
+	.select('show_dates')
+	.eq('user_id', user.id)
+	.single();
+	console.log(show_dates);
+
+	console.log(todos!.map((todo) => Object.assign(todo, show_dates)));
+
   return (
 		<Main>
 			{/* <pre>{JSON.stringify(show_dates, null, 2)}</pre> */}
-			<Todos serverTodos={todos!} />
+			<Todos serverTodos={todos!.map((todo) => Object.assign(todo, show_dates))} />
 			<BottomDrawer>
 				<TodoForm />
 			</BottomDrawer>

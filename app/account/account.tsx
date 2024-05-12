@@ -1,14 +1,14 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Switch, Toolbar, Typography } from '@mui/material';
 import { CalendarToday, ChevronRight, Edit, Logout, Mail, NightsStay, Palette, Settings } from '@mui/icons-material';
 import Main from '../_components/main';
 import AccountForm from './account-form';
 import type { User } from '@supabase/supabase-js';
-import type { Profile } from '@/app/_utils/types';
+import type { Profile, Settings as SettingsType } from '@/app/_utils/types';
 import AvatarDL from './avatar-dl';
 import { createClient } from '@/app/_utils/supabase/client';
-import { updateAvatar, updateColor } from './actions';
+import { updateAvatar, updateColor, updateSettings } from './actions';
 import AvatarForm from './avatar-form';
 import { useOpen } from '@/app/_utils/context';
 import ColorPicker from '../_components/color-picker';
@@ -23,10 +23,11 @@ export default function Account({
 	const [profile, setProfile] = React.useState(serverProfile);
 	const {username, avatar_url} = profile;
 	const { openProfileUpdate, setOpenProfileUpdate, openProfileColor, setOpenProfileColor, openProfileSettings, setOpenProfileSettings } = useOpen();
-	const [showDates, setShowDates] = React.useState<boolean|undefined>(profile.settings?.show_dates||true);
+	// const [showDates, setShowDates] = React.useState<boolean|undefined>(profile.settings?.show_dates||true);
+	const [showDates, setShowDates] = useState<boolean>(profile.settings?.show_dates||true);
 
 	// console.log({user});
-	// console.log({profile});
+	console.log({profile});
 
 	const handleOpenUpdate = () => {
     setOpenProfileUpdate(true);
@@ -47,6 +48,15 @@ export default function Account({
 			schema: 'public',
 			table: 'profiles',
 		}, (payload) => setProfile(payload.new as Profile))
+		.on('postgres_changes', {
+			event: 'UPDATE',
+			schema: 'public',
+			table: 'settings',
+		}, (payload) => {
+			setProfile(Object.assign(profile, {settings: payload.new as SettingsType}) as Profile);
+			setShowDates(payload.new.show_dates as boolean);
+			// move to context
+		})
 		.subscribe();
 
 		return () => {
@@ -280,14 +290,20 @@ export default function Account({
 										'aria-labelledby': 'switch-list-label-wifi',
 									}}
 									onChange={() => {
-										setShowDates(!showDates);
+										// setShowDates(!showDates);
+										// handleShowDates({showDates: settings!.show_dates});
+										// updateSettings({showDates: profile.settings!.show_dates});
+										updateSettings({showDates});
 									}}
 								/>
 							}
 						>
 							<ListItemButton
 								onClick={() => {
-									setShowDates(!showDates);
+									// setShowDates(!showDates);
+									// handleShowDates({showDates: settings!.show_dates});
+									// updateSettings({showDates: profile.settings!.show_dates});
+									updateSettings({showDates});
 								}}
 							>
 								<ListItemIcon>

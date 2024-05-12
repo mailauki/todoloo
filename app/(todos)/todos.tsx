@@ -33,6 +33,11 @@ export default function Todos({
 			console.log((todos.map((newTodo) => newTodo.id == payload.old.id ? payload.new : newTodo)));
 			setTodos(todos.map((newTodo) => newTodo.id == payload.old.id ? payload.new as Todo : newTodo));
 		})
+		.on('postgres_changes', {
+			event: 'UPDATE',
+			schema: 'public',
+			table: 'settings',
+		}, (payload) => setTodos(todos!.map((todo) => Object.assign(todo, {show_dates: payload.new.show_dates as boolean}))))
 		.subscribe();
 
 		return () => {
@@ -41,6 +46,8 @@ export default function Todos({
 	}, [supabase, todos, setTodos]);
 
 	if (!todos || (todosDueToday.length < 0 && todosPastDue.length < 0 && todosDueLater.length < 0)) return <Typography variant='h6'>No Tasks</Typography>;
+
+	console.log({todosDueToday});
 
 	return (
 		<>
