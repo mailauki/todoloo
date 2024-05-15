@@ -13,19 +13,21 @@ export default function AccountForm({
   // const [loading, setLoading] = React.useState(!profile);
   const [full_name, setFullname] = React.useState<string | null>(profile.full_name||null);
   const [username, setUsername] = React.useState<string | null>(profile.username||null);
+	console.log({profile});
 
   return (
 		<>
 			<Stack
-				// component='form'
 				alignItems='center'
+				component='form'
 				spacing={2}
 			>
 
 				<TextField
 					fullWidth
-					id='fullName'
+					id='full_name'
 					label='Name'
+					name='full_name'
 					onChange={(e) => setFullname(e.target.value)}
 					type='text'
 					value={full_name || ''}
@@ -35,6 +37,7 @@ export default function AccountForm({
 					fullWidth
 					id='username'
 					label='Username'
+					name='username'
 					onChange={(e) => setUsername(e.target.value)}
 					type='text'
 					value={username || ''}
@@ -43,9 +46,11 @@ export default function AccountForm({
 
 				<Button
 					// disabled={loading}
+					formAction={updateProfile}
 					fullWidth
-					onClick={() => updateProfile({ full_name, username })}
+					// onClick={() => updateProfile({ full_name, username })}
 					size='large'
+					type='submit'
 					variant='contained'
 				>
 					{/* {loading ? 'Loading ...' : 'Update'} */}

@@ -7,17 +7,17 @@ export const handleSnack = (variant: VariantType) => () => {
 	else if (variant === 'error') enqueueSnackbar('Error updating the data!', {variant});
 };
 
-export async function updateProfile({
-	username,
-	full_name,
-}: {
-	username: string | null
-	full_name: string | null
-}) {
+export async function updateProfile(formData: FormData) {
 	const supabase = createClient();
+
 	const { data: { user } } = await supabase.auth.getUser();
+
+	const full_name = formData.get('full_name') as string;
+  const username = formData.get('username') as string;
+
 	try {
-		const { error } = await supabase.from('profiles').upsert({
+		const { error } = await supabase.from('profiles')
+		.upsert({
 			full_name,
 			username,
 			updated_at: new Date().toISOString(),
@@ -27,6 +27,7 @@ export async function updateProfile({
 		handleSnack('success')();
 	} catch (error) {
 		handleSnack('error')();
+		console.log(error);
 	}
 }
 
@@ -38,7 +39,8 @@ export async function updateAvatar({
 	const supabase = createClient();
 	const { data: { user } } = await supabase.auth.getUser();
 	try {
-		const { error } = await supabase.from('profiles').upsert({
+		const { error } = await supabase.from('profiles')
+		.upsert({
 			avatar_url,
 			updated_at: new Date().toISOString(),
 		})
@@ -50,16 +52,37 @@ export async function updateAvatar({
 	}
 }
 
-export async function updateColor({
-	color,
-}: {
-	color: string | null
-}) {
+// export async function updateColor({
+// 	color,
+// }: {
+// 	color: string | null
+// }) {
+// 	const supabase = createClient();
+// 	const { data: { user } } = await supabase.auth.getUser();
+// 	try {
+// 		const { error } = await supabase.from('profiles')
+// 		.upsert({
+// 			color,
+// 			updated_at: new Date().toISOString(),
+// 		})
+// 		.match({ id: user?.id });
+// 		if (error) throw error;
+// 		handleSnack('success')();
+// 	} catch (error) {
+// 		handleSnack('error')();
+// 	}
+// }
+
+export async function updateColor(formData: FormData) {
 	const supabase = createClient();
+
 	const { data: { user } } = await supabase.auth.getUser();
+
+	const color = formData.get('color') as string;
+
 	try {
 		const { error } = await supabase.from('profiles')
-		.upsert({
+		.update({
 			color,
 			updated_at: new Date().toISOString(),
 		})
@@ -68,6 +91,7 @@ export async function updateColor({
 		handleSnack('success')();
 	} catch (error) {
 		handleSnack('error')();
+		console.log(error);
 	}
 }
 

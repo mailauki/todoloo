@@ -8,7 +8,7 @@ import type { User } from '@supabase/supabase-js';
 import type { Profile, Settings as SettingsType } from '@/app/_utils/types';
 import AvatarDL from './avatar-dl';
 import { createClient } from '@/app/_utils/supabase/client';
-import { updateAvatar, updateColor, updateSettings } from './actions';
+import { updateAvatar, updateSettings } from './actions';
 import AvatarForm from './avatar-form';
 import { useOpen } from '@/app/_utils/context';
 import ColorPicker from '../_components/color-picker';
@@ -250,14 +250,9 @@ export default function Account({
 						backgroundColor: 'card.paper',
 					}}
 				>
-					<CardContent>
-						<ColorPicker
-							color={profile.color!}
-							onColorChange={(color) => {
-								updateColor({ color });
-							}}
-						/>
-					</CardContent>
+					<ColorPicker
+						color={profile.color!}
+					/>
 				</Card>
 			</Stack>
 		);

@@ -4,9 +4,11 @@ import { Button, IconButton, InputAdornment, Link as Anchor, Stack, TextField, T
 import { login, signup } from './actions';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Main from '../_components/main';
+import { useSearchParams } from 'next/navigation';
 
 export default function LoginPage() {
-	const error = new URL(document.location.href).searchParams.get('error');
+	const searchParams = useSearchParams();
+	const error = searchParams.get('error');
 	const [showPassword, setShowPassword] = React.useState(false);
 	const [showSignup, setShowSignup] = React.useState(false);
 
