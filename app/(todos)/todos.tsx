@@ -5,7 +5,6 @@ import { createClient } from '@/app/_utils/supabase/client';
 import { Chip, List, Stack, Typography } from '@mui/material';
 import ToDo from './todo';
 import moment from 'moment';
-import Welcome from '../_components/welcome';
 
 export default function Todos({
 	serverTodos,
@@ -51,12 +50,8 @@ export default function Todos({
 
 	if (!todos || (todosDueToday.length < 0 && todosPastDue.length < 0 && todosDueLater.length < 0)) return <Typography variant='h6'>No Tasks</Typography>;
 
-	console.log({todosDueToday});
-
 	return (
 		<>
-			<Welcome />
-
 			{todosDueToday && todosDueToday.length > 0 && (
 				<List
 					subheader={

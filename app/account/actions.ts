@@ -7,6 +7,27 @@ export const handleSnack = (variant: VariantType) => () => {
 	else if (variant === 'error') enqueueSnackbar('Error updating the data!', {variant});
 };
 
+export async function getUser() {
+	const supabase = createClient();
+
+	const { data: { user } } = await supabase.auth.getUser();
+
+	return user;
+}
+
+export async function getProfile() {
+	const supabase = createClient();
+
+	const { data: { user } } = await supabase.auth.getUser();
+
+	const { data: profile } = await supabase.from('profiles')
+	.select()
+	.match({ id: user?.id })
+	.single();
+
+	return profile;
+}
+
 export async function updateProfile(formData: FormData) {
 	const supabase = createClient();
 

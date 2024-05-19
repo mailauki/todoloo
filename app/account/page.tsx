@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/app/_utils/supabase/server';
 import Account from './account';
-import { Suspense } from 'react';
-import LoadingBackground from '../(loading)/background';
+import Loading from '../(loading)/loading';
 
 export default async function AccountPage() {
   const supabase = createClient();
@@ -17,13 +16,11 @@ export default async function AccountPage() {
 	.eq('id', user.id)
 	.single();
 
-	if (!profile && status !== 400) return <LoadingBackground />;
+	if (!profile && status !== 400) return <Loading />;
 
 	// console.log({profile}, {status});
 
 	return (
-		<Suspense fallback={<LoadingBackground />}>
-			<Account serverProfile={profile} user={user} />
-		</Suspense>
+		<Account serverProfile={profile} user={user} />
 	);
 }

@@ -4,7 +4,6 @@ import { useOpen } from '@/app/_utils/context';
 import { Add, Close } from '@mui/icons-material';
 import { Container, Drawer, Fab, Toolbar } from '@mui/material';
 import { usePathname } from 'next/navigation';
-
 export default function BottomDrawer({
 	children,
 }: Readonly<{

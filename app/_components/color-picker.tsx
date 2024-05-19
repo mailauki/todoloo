@@ -15,7 +15,7 @@ const ColorBox = styled(Box)(({ color }: { color: string }) => ({
 export default function ColorPicker({
 	color,
 }: {
-	color: string|null,
+	color: string | null,
 }) {
 	const theme = useTheme();
   // const [shade, setShade] = React.useState<number|string>(500);

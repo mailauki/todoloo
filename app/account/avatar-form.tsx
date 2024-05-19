@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { createClient } from '@/app/_utils/supabase/client';
-import { Badge, Button, IconButton, Paper, Stack } from '@mui/material';
+import { Badge, IconButton, Paper, Stack } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import AvatarDL from './avatar-dl';
 // import { updateAvatar } from './actions';
@@ -96,7 +96,6 @@ export default function AvatarForm({
 					</Badge>
 				</IconButton>
 			</Paper>
-			<Button component='button' type='submit'>Upload</Button>
     </Stack>
   );
 }

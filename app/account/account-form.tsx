@@ -13,7 +13,6 @@ export default function AccountForm({
   // const [loading, setLoading] = React.useState(!profile);
   const [full_name, setFullname] = React.useState<string | null>(profile.full_name||null);
   const [username, setUsername] = React.useState<string | null>(profile.username||null);
-	console.log({profile});
 
   return (
 		<>
