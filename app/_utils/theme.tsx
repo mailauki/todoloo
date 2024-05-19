@@ -51,92 +51,92 @@ export default function Theme({
 
 	React.useEffect(() => {
 		switch (colorLabel) {
-			case 'red':
+			case 'Red':
 				setColor(red);
 				setSecondaryColor(amber);
 				setTertiaryColor(pink);
 				break;
-			case 'pink':
+			case 'Pink':
 				setColor(pink);
 				setSecondaryColor(orange);
 				setTertiaryColor(purple);
 				break;
-			case 'purple':
+			case 'Purple':
 				setColor(purple);
 				setSecondaryColor(deepOrange);
 				setTertiaryColor(deepPurple);
 				break;
-			case 'deep purple':
+			case 'Deep Purple':
 				setColor(deepPurple);
 				setSecondaryColor(red);
 				setTertiaryColor(indigo);
 				break;
-			case 'indigo':
+			case 'Indigo':
 				setColor(indigo);
 				setSecondaryColor(pink);
 				setTertiaryColor(blue);
 				break;
-			case 'blue':
+			case 'Blue':
 				setColor(blue);
 				setSecondaryColor(purple);
 				setTertiaryColor(lightBlue);
 				break;
-			case 'light blue':
+			case 'Light Blue':
 				setColor(lightBlue);
 				setSecondaryColor(deepPurple);
 				setTertiaryColor(cyan);
 				break;
-			case 'cyan':
+			case 'Cyan':
 				setColor(cyan);
 				setSecondaryColor(indigo);
 				setTertiaryColor(teal);
 				break;
-			case 'teal':
+			case 'Teal':
 				setColor(teal);
 				setSecondaryColor(blue);
 				setTertiaryColor(green);
 				break;
-			case 'green':
+			case 'Green':
 				setColor(green);
 				setSecondaryColor(lightBlue);
 				setTertiaryColor(lightGreen);
 				break;
-			case 'light green':
+			case 'Light Green':
 				setColor(lightGreen);
 				setSecondaryColor(cyan);
 				setTertiaryColor(lime);
 				break;
-			case 'lime':
+			case 'Lime':
 				setColor(lime);
 				setSecondaryColor(teal);
 				setTertiaryColor(yellow);
 				break;
-			case 'yellow':
+			case 'Yellow':
 				setColor(yellow);
 				setSecondaryColor(green);
 				setTertiaryColor(amber);
 				break;
-			case 'amber':
+			case 'Amber':
 				setColor(amber);
 				setSecondaryColor(lightGreen);
 				setTertiaryColor(orange);
 				break;
-			case 'orange':
+			case 'Orange':
 				setColor(orange);
 				setSecondaryColor(lime);
 				setTertiaryColor(deepOrange);
 				break;
-			case 'deep orange':
+			case 'Deep Orange':
 				setColor(deepOrange);
 				setSecondaryColor(yellow);
 				setTertiaryColor(red);
 				break;
-			case 'grey':
+			case 'Grey':
 				setColor(grey);
 				setSecondaryColor(blueGrey);
 				setTertiaryColor(black);
 				break;
-			case 'black/white':
+			case 'Black / White':
 				setColor(black);
 				setSecondaryColor(blueGrey);
 				setTertiaryColor(grey);
@@ -170,8 +170,8 @@ export default function Theme({
 						contrastText: 'rgba(0, 0, 0, 0.87)',
 					},
 					card: {
-						paper: prefersDarkMode ? alpha(black[800], 0.2) : alpha(grey[50], 0.2),
-						done: prefersDarkMode ? alpha(black[800], 0.45) : alpha(grey[50], 0.45),
+						done: prefersDarkMode ? alpha(black[800], 0.2) : alpha(grey[50], 0.2),
+						paper: prefersDarkMode ? alpha(black[800], 0.45) : alpha(grey[50], 0.45),
 					},
 				},
 			}),

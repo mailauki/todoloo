@@ -2,9 +2,10 @@
 import React from 'react';
 import type { Todo } from '@/app/_utils/types';
 import { createClient } from '@/app/_utils/supabase/client';
-import { List, Typography } from '@mui/material';
+import { Chip, List, Stack, Typography } from '@mui/material';
 import ToDo from './todo';
 import moment from 'moment';
+import Welcome from '../_components/welcome';
 
 export default function Todos({
 	serverTodos,
@@ -17,6 +18,9 @@ export default function Todos({
 	const todosDueToday = todos?.filter((todo) => todo.due_date === today);
 	const todosPastDue = todos?.filter((todo) => todo.due_date !== today && moment().diff(todo.due_date) > 0);
 	const todosDueLater = todos?.filter((todo) => todo.due_date !== today && moment().diff(todo.due_date) < 0);
+	const doneTodosDueToday = todosDueToday?.filter((todo) => todo.is_complete);
+	const doneTodosPastDue = todosPastDue?.filter((todo) => todo.is_complete);
+	const doneTodosDueLater = todosDueLater?.filter((todo) => todo.is_complete);
 
 	React.useEffect(() => {
 		const channel = supabase.channel('realtime todos')
@@ -51,16 +55,27 @@ export default function Todos({
 
 	return (
 		<>
+			<Welcome />
+
 			{todosDueToday && todosDueToday.length > 0 && (
 				<List
 					subheader={
+						<Stack
+							alignItems='center'
+							direction='row'
+							justifyContent='space-between'
+							sx={{ mb: 1 }}
+						>
 						<Typography
 							color='text.secondary'
-							sx={{ mb: 1 }}
 							variant='h6'
 						>
 							Due Today
 						</Typography>
+						<Chip
+							label={`${doneTodosDueToday.length} / ${todosDueToday.length}`}
+						/>
+						</Stack>
 					}
 					sx={{ width: '100%' }}
 				>
@@ -73,13 +88,22 @@ export default function Todos({
 			{todosPastDue && todosPastDue.length > 0 && (
 				<List
 					subheader={
+						<Stack
+							alignItems='center'
+							direction='row'
+							justifyContent='space-between'
+							sx={{ mb: 1 }}
+						>
 						<Typography
 							color='text.secondary'
-							sx={{ mb: 1 }}
 							variant='h6'
 						>
 							Past Due
 						</Typography>
+						<Chip
+							label={`${doneTodosPastDue.length} / ${todosPastDue.length}`}
+						/>
+						</Stack>
 					}
 					sx={{ width: '100%' }}
 				>
@@ -92,13 +116,22 @@ export default function Todos({
 			{todosDueLater && todosDueLater.length > 0 && (
 				<List
 					subheader={
+						<Stack
+							alignItems='center'
+							direction='row'
+							justifyContent='space-between'
+							sx={{ mb: 1 }}
+						>
 						<Typography
 							color='text.secondary'
-							sx={{ mb: 1 }}
 							variant='h6'
 						>
 							Due Later
 						</Typography>
+						<Chip
+							label={`${doneTodosDueLater.length} / ${todosDueLater.length}`}
+						/>
+						</Stack>
 					}
 					sx={{ width: '100%' }}
 				>

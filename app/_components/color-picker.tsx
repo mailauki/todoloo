@@ -32,55 +32,6 @@ export default function ColorPicker({
 		label: string,
 	}) {
 		return (
-			// <ListItem
-			// 	disablePadding
-			// 	secondaryAction={
-			// 		value === label && <Check sx={{ mr: 1 }} />
-			// 	}
-			// >
-			// 	<ListItemButton
-			// 		component={FormControlLabel}
-			// 		control={
-			// 			<Radio
-			// 				checkedIcon={<ColorBox color={hexcolor} />}
-			// 				icon={<ColorBox color={hexcolor} />}
-			// 			/>
-			// 		}
-			// 		label={
-			// 			<Typography
-			// 				sx={{ ml: 2 }}
-			// 				variant='button'
-			// 			>
-			// 				{label}
-			// 			</Typography>
-			// 		}
-			// 		selected={value === label}
-			// 		value={label}
-			// 	/>
-			// </ListItem>
-
-			// <ListItem
-			// 	action={updateColor}
-			// 	component='form'
-			// 	disablePadding
-			// 	method='post'
-			// 	secondaryAction={
-			// 		value === label && <Check sx={{ mr: 1 }} />
-			// 	}
-			// >
-			// 	<ListItemButton
-			// 		component='button'
-			// 		selected={value === label}
-			// 		sx={{ py: 2, pl: 3 }}
-			// 		type='submit'
-			// 	>
-			// 		<ListItemIcon>
-			// 			<ColorBox color={hexcolor} />
-			// 		</ListItemIcon>
-			// 		<ListItemText primary={label} />
-			// 	</ListItemButton>
-			// </ListItem>
-
 			<ListItem
 				action={updateColor}
 				component='form'
@@ -92,7 +43,6 @@ export default function ColorPicker({
 			>
 				<ListItemButton
 					component='button'
-					// onClick={() => setValue(label)}
 					selected={value === label}
 					sx={{ py: 2, pl: 3 }}
 					type='submit'
@@ -116,65 +66,25 @@ export default function ColorPicker({
 	}
 
 	return (
-		// <form>
-		// 	<FormControl sx={{ width: '100%' }}>
-		// 		<List
-		// 			component={RadioGroup}
-		// 			disablePadding
-		// 			id='color'
-		// 			name='color'
-		// 			onChange={handleChange}
-		// 			value={value}
-		// 		>
-		// 			<Color hexcolor={red[shade]} label='red' />
-		// 			<Color hexcolor={pink[shade]} label='pink' />
-		// 			<Color hexcolor={purple[shade]} label='purple' />
-		// 			<Color hexcolor={deepPurple[shade]} label='deep purple' />
-		// 			<Color hexcolor={indigo[shade]} label='indigo' />
-		// 			<Color hexcolor={blue[shade]} label='blue' />
-		// 			<Color hexcolor={lightBlue[shade]} label='light blue' />
-		// 			<Color hexcolor={cyan[shade]} label='cyan' />
-		// 			<Color hexcolor={teal[shade]} label='teal' />
-		// 			<Color hexcolor={green[shade]} label='green' />
-		// 			<Color hexcolor={lightGreen[shade]} label='light green' />
-		// 			<Color hexcolor={lime[shade]} label='lime' />
-		// 			<Color hexcolor={yellow[shade]} label='yellow' />
-		// 			<Color hexcolor={amber[shade]} label='amber' />
-		// 			<Color hexcolor={orange[shade]} label='orange' />
-		// 			<Color hexcolor={deepOrange[shade]} label='deep orange' />
-		// 			<Color hexcolor={grey[shade]} label='grey' />
-		// 			<Color hexcolor={theme.palette.text.primary} label='black/white' />
-		// 		</List>
-		// 		<Button
-		// 			formAction={updateColor}
-		// 			size='large'
-		// 			sx={{ m: 2 }}
-		// 			type='submit'
-		// 			variant='contained'
-		// 		>
-		// 			Update Color
-		// 		</Button>
-		// 	</FormControl>
-		// </form>
 		<List disablePadding>
-			<Color hexcolor={red[shade]} label='red' />
-			<Color hexcolor={pink[shade]} label='pink' />
-			<Color hexcolor={purple[shade]} label='purple' />
-			<Color hexcolor={deepPurple[shade]} label='deep purple' />
-			<Color hexcolor={indigo[shade]} label='indigo' />
-			<Color hexcolor={blue[shade]} label='blue' />
-			<Color hexcolor={lightBlue[shade]} label='light blue' />
-			<Color hexcolor={cyan[shade]} label='cyan' />
-			<Color hexcolor={teal[shade]} label='teal' />
-			<Color hexcolor={green[shade]} label='green' />
-			<Color hexcolor={lightGreen[shade]} label='light green' />
-			<Color hexcolor={lime[shade]} label='lime' />
-			<Color hexcolor={yellow[shade]} label='yellow' />
-			<Color hexcolor={amber[shade]} label='amber' />
-			<Color hexcolor={orange[shade]} label='orange' />
-			<Color hexcolor={deepOrange[shade]} label='deep orange' />
-			<Color hexcolor={grey[shade]} label='grey' />
-			<Color hexcolor={theme.palette.text.primary} label='black/white' />
+			<Color hexcolor={red[shade]} label='Red' />
+			<Color hexcolor={pink[shade]} label='Pink' />
+			<Color hexcolor={purple[shade]} label='Purple' />
+			<Color hexcolor={deepPurple[shade]} label='Deep Purple' />
+			<Color hexcolor={indigo[shade]} label='Indigo' />
+			<Color hexcolor={blue[shade]} label='Blue' />
+			<Color hexcolor={lightBlue[shade]} label='Light Blue' />
+			<Color hexcolor={cyan[shade]} label='Cyan' />
+			<Color hexcolor={teal[shade]} label='Teal' />
+			<Color hexcolor={green[shade]} label='Green' />
+			<Color hexcolor={lightGreen[shade]} label='Light Green' />
+			<Color hexcolor={lime[shade]} label='Lime' />
+			<Color hexcolor={yellow[shade]} label='Yellow' />
+			<Color hexcolor={amber[shade]} label='Amber' />
+			<Color hexcolor={orange[shade]} label='Orange' />
+			<Color hexcolor={deepOrange[shade]} label='Deep Orange' />
+			<Color hexcolor={grey[shade]} label='Grey' />
+			<Color hexcolor={theme.palette.text.primary} label='Black / White' />
 	</List>
 	);
 }

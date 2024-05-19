@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
 import { createClient } from '@/app/_utils/supabase/client';
-import { Badge, IconButton, Paper, Stack } from '@mui/material';
+import { Badge, Button, IconButton, Paper, Stack } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import AvatarDL from './avatar-dl';
+// import { updateAvatar } from './actions';
 
 export default function AvatarForm({
   uid,
@@ -16,6 +17,8 @@ export default function AvatarForm({
 }) {
   const supabase = createClient();
   const [uploading, setUploading] = React.useState(false);
+	// const [avatar_url, setAvatarUrl] = React.useState(url);
+	// console.log({avatar_url});
 
   const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
     try {
@@ -36,6 +39,7 @@ export default function AvatarForm({
       }
 
       onUpload(filePath);
+			// setAvatarUrl(filePath);
     } catch (error) {
       alert('Error uploading avatar!');
     } finally {
@@ -55,7 +59,8 @@ export default function AvatarForm({
 				<input
           accept='image/*'
           disabled={uploading}
-          id='single'
+          id='avatar_url'
+					name='avatar_url'
           onChange={uploadAvatar}
           style={{
             visibility: 'hidden',
@@ -66,7 +71,7 @@ export default function AvatarForm({
 				<IconButton
 					component='label'
 					disabled={uploading}
-					htmlFor='single'
+					htmlFor='avatar_url'
 					sx={{ p: 0.5 }}
 				>
 					<Badge
@@ -91,6 +96,7 @@ export default function AvatarForm({
 					</Badge>
 				</IconButton>
 			</Paper>
+			<Button component='button' type='submit'>Upload</Button>
     </Stack>
   );
 }

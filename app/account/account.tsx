@@ -172,7 +172,7 @@ export default function Account({
 										color='text.secondary'
 										variant='subtitle2'
 									>
-										{profile.settings?.theme_mode||'system'}
+										{profile.settings?.theme_mode||'System'}
 									</Typography>
 									<ChevronRight />
 								</Stack>

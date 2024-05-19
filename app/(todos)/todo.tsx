@@ -29,7 +29,7 @@ export default function ToDo({ todo }: { todo: Todo }) {
 					padding: 0,
 					marginBottom: 2,
 					overflow: 'hidden',
-					backgroundColor: todo.is_complete ? 'card.paper' : 'card.done',
+					backgroundColor: todo.is_complete ? 'card.done' : 'card.paper',
 					'& .MuiListItemSecondaryAction-root': { right: 2 },
 				}}
 				variant='outlined'
