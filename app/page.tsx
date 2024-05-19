@@ -14,8 +14,6 @@ import type { Todo } from './_utils/types';
 export default async function HomePage() {
 	const supabase = createClient();
 
-  // const { data: { session }, error } = await supabase.auth.getSession();
-	// console.log({session});
 	const { data: { user } } = await supabase.auth.getUser();
 
 	if (!user) redirect('/login');

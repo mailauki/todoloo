@@ -1,20 +1,29 @@
 'use client';
-// import { useOpen } from '@/app/_utils/context';
 import { AccountCircle, ChevronLeft } from '@mui/icons-material';
-import { AppBar, Link as Anchor, Toolbar, IconButton, Typography } from '@mui/material';
+import { AppBar, Link as Anchor, Toolbar, IconButton, Typography, useScrollTrigger, alpha, useTheme } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function Header() {
 	const pathname = usePathname();
-	// const { openProfileUpdate, setOpenProfileUpdate, openProfileColor, setOpenProfileColor, openProfileSettings, setOpenProfileSettings } = useOpen();
+	const theme = useTheme();
+	const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+  });
 
 	return (
 		<AppBar
-			// color='inherit'
 			elevation={0}
 			position='fixed'
-			sx={{ backgroundColor: 'transparent' }}
+			sx={{
+				backgroundColor: trigger ? alpha('#000', 0.4) : 'transparent',
+				backdropFilter: 'blur(10px)',
+				transition: theme.transitions.create(['display', 'background-color'], {
+					easing: theme.transitions.easing.easeInOut,
+					duration: theme.transitions.duration.standard,
+				}),
+			}}
 		>
 			{pathname !== '/login' ? (
 				<Toolbar
@@ -29,11 +38,6 @@ export default function Header() {
 							color='inherit'
 							component={Link}
 							href='/account'
-							// onClick={() => {
-							// 	if (openProfileUpdate) setOpenProfileUpdate(false);
-							// 	else if (openProfileColor) setOpenProfileColor(false);
-							// 	else if (openProfileSettings) setOpenProfileSettings(false);
-							// }}
 						>
 							<ChevronLeft />
 						</IconButton>
