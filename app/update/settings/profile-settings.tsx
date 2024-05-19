@@ -14,7 +14,7 @@ export default function ProfileSettings({
 	const supabase = createClient();
 
 	const [showDates, setShowDates] = useState<boolean>(settings.show_dates||true);
-	const [showWelcome, setShowWelcome] = useState<boolean>(true);
+	const [showWelcome, setShowWelcome] = useState<boolean>(settings.show_welcome||true);
 
 	useEffect(() => {
 		const channel = supabase.channel('realtime settings')
@@ -24,6 +24,7 @@ export default function ProfileSettings({
 			table: 'settings',
 		}, (payload) => {
 			setShowDates(payload.new.show_dates as boolean);
+			setShowWelcome(payload.new.show_welcome as boolean);
 		})
 		.subscribe();
 
@@ -84,14 +85,14 @@ export default function ProfileSettings({
 									'aria-label': 'Show welcome',
 								}}
 								onChange={() => {
-									setShowWelcome(!showWelcome);
+									updateSettings({showWelcome});
 								}}
 							/>
 						}
 					>
 						<ListItemButton
 							onClick={() => {
-								setShowWelcome(!showWelcome);
+								updateSettings({showWelcome});
 							}}
 						>
 							<ListItemIcon>

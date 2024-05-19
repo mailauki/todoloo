@@ -7,27 +7,6 @@ export const handleSnack = (variant: VariantType) => () => {
 	else if (variant === 'error') enqueueSnackbar('Error updating the data!', {variant});
 };
 
-export async function getUser() {
-	const supabase = createClient();
-
-	const { data: { user } } = await supabase.auth.getUser();
-
-	return user;
-}
-
-export async function getProfile() {
-	const supabase = createClient();
-
-	const { data: { user } } = await supabase.auth.getUser();
-
-	const { data: profile } = await supabase.from('profiles')
-	.select()
-	.match({ id: user?.id })
-	.single();
-
-	return profile;
-}
-
 export async function updateProfile(formData: FormData) {
 	const supabase = createClient();
 
@@ -93,14 +72,18 @@ export async function updateColor(formData: FormData) {
 	}
 }
 
-export async function updateSettings({ showDates }: { showDates: boolean }) {
+export async function updateSettings({ showDates, showWelcome }: { showDates?: boolean, showWelcome?: boolean }) {
 	console.log('update settings', {showDates});
 	const supabase = createClient();
 	const { data: { user } } = await supabase.auth.getUser();
+	const { data: profile } = await supabase.from('profiles')
+	.select(`*, settings ( theme_mode, show_dates )`)
+	.single();
 	try {
 		const { data, error } = await supabase.from('settings')
 		.update({
-			show_dates: !showDates,
+			show_dates: !showDates ?? profile?.settings.show_dates,
+			show_welcome: !showWelcome ?? profile?.settings.show_welcome,
 		})
 		.match({ user_id: user?.id, profile_id: user?.id })
 		.select();

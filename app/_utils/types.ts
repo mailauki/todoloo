@@ -26,6 +26,7 @@ export interface Settings {
 	profile_id?: UUID,
 	theme_mode: string,
 	show_dates: boolean,
+	show_welcome: boolean,
 	created_at?: Date,
 }
 
