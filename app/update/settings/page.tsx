@@ -9,13 +9,19 @@ export default async function updateSettingsPage() {
 
 	if (!user || error) redirect('/login');
 
-	const { data: settings } = await supabase
-	.from('settings')
-	.select()
+	// const { data: settings } = await supabase
+	// .from('settings')
+	// .select()
+	// .eq('user_id', user.id)
+	// .single();
+	// console.log({settings});
+	const { data: profile } = await supabase
+	.from('profiles')
+	.select(`*, settings ( theme_mode, show_dates )`)
 	.eq('id', user.id)
 	.single();
 
 	return (
-		<ProfileSettings settings={settings!} />
+		<ProfileSettings settings={profile.settings!} />
 	);
 }

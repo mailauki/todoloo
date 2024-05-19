@@ -2,17 +2,35 @@
 import { Card, CardContent, CardHeader, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Switch } from '@mui/material';
 import { updateSettings } from '@/app/account/actions';
 import { AccessTime, CalendarToday } from '@mui/icons-material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Settings } from '@/app/_utils/types';
+import { createClient } from '@/app/_utils/supabase/client';
 
 export default function ProfileSettings({
 	settings,
 }: {
 	settings: Settings,
 }) {
-	const showDates = settings?.show_dates || true;
-	// const [showDates, setShowDates] = useState<boolean>(profile.settings?.show_dates||true);
+	const supabase = createClient();
+
+	const [showDates, setShowDates] = useState<boolean>(settings.show_dates||true);
 	const [showWelcome, setShowWelcome] = useState<boolean>(true);
+
+	useEffect(() => {
+		const channel = supabase.channel('realtime settings')
+		.on('postgres_changes', {
+			event: 'UPDATE',
+			schema: 'public',
+			table: 'settings',
+		}, (payload) => {
+			setShowDates(payload.new.show_dates as boolean);
+		})
+		.subscribe();
+
+		return () => {
+			supabase.removeChannel(channel);
+		};
+	});
 
 	return (
 		<Stack spacing={2}>
@@ -40,9 +58,6 @@ export default function ProfileSettings({
 									'aria-label': 'Show dates',
 								}}
 								onChange={() => {
-									// setShowDates(!showDates);
-									// handleShowDates({showDates: settings!.show_dates});
-									// updateSettings({showDates: profile.settings!.show_dates});
 									updateSettings({showDates});
 								}}
 							/>
@@ -50,9 +65,6 @@ export default function ProfileSettings({
 					>
 						<ListItemButton
 							onClick={() => {
-								// setShowDates(!showDates);
-								// handleShowDates({showDates: settings!.show_dates});
-								// updateSettings({showDates: profile.settings!.show_dates});
 								updateSettings({showDates});
 							}}
 						>

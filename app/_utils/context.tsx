@@ -9,12 +9,6 @@ type InitialStateType = {
 	setOpenTodoEdit: React.Dispatch<boolean>,
 	selectedTodo: Todo|null,
 	setSelectedTodo: React.Dispatch<Todo|null>,
-	openProfileUpdate: boolean,
-	setOpenProfileUpdate: React.Dispatch<boolean>,
-	openProfileColor: boolean,
-	setOpenProfileColor: React.Dispatch<boolean>,
-	openProfileSettings: boolean,
-	setOpenProfileSettings: React.Dispatch<boolean>,
 	showDates: boolean,
 	setShowDates: React.Dispatch<boolean>,
 	anchor: HTMLElement|null,
@@ -31,12 +25,6 @@ const initialState = {
 	setOpenTodoEdit: () => null,
 	selectedTodo: null,
 	setSelectedTodo: () => null,
-	openProfileUpdate: false,
-	setOpenProfileUpdate: () => null,
-	openProfileColor: false,
-	setOpenProfileColor: () => null,
-	openProfileSettings: false,
-	setOpenProfileSettings: () => null,
 	showDates: true,
 	setShowDates: () => null,
 	anchor: null,
@@ -56,9 +44,6 @@ export function OpenProvider({
 	const [openTodoAdd, setOpenTodoAdd] = useState(false);
 	const [openTodoEdit, setOpenTodoEdit] = useState(false);
 	const [selectedTodo, setSelectedTodo] = useState<Todo|null>(null);
-	const [openProfileUpdate, setOpenProfileUpdate] = useState(false);
-	const [openProfileColor, setOpenProfileColor] = useState(false);
-	const [openProfileSettings, setOpenProfileSettings] = useState(false);
 	const [showDates, setShowDates] = useState(true);
 	const [anchor, setAnchor] = useState<HTMLElement|null>(null);
   const openTodoMenu = Boolean(anchor);
@@ -80,12 +65,6 @@ export function OpenProvider({
 				setOpenTodoEdit,
 				selectedTodo,
 				setSelectedTodo,
-				openProfileUpdate,
-				setOpenProfileUpdate,
-				openProfileColor,
-				setOpenProfileColor,
-				openProfileSettings,
-				setOpenProfileSettings,
 				showDates,
 				setShowDates,
 				anchor,
