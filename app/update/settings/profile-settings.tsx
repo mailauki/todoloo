@@ -13,8 +13,8 @@ export default function ProfileSettings({
 }) {
 	const supabase = createClient();
 
-	const [showDates, setShowDates] = useState<boolean>(settings.show_dates||true);
-	const [showWelcome, setShowWelcome] = useState<boolean>(settings.show_welcome||true);
+	const [showDates, setShowDates] = useState<boolean>(settings.show_dates ?? true);
+	const [showWelcome, setShowWelcome] = useState<boolean>(settings.show_welcome ?? true);
 
 	useEffect(() => {
 		const channel = supabase.channel('realtime settings')

@@ -10,6 +10,7 @@ import { Suspense } from 'react';
 import LoadingTodos from './(loading)/todos';
 import Welcome from './_components/welcome';
 import LoadingWelcome from './(todos)/welcome';
+import type { Todo } from './_utils/types';
 export default async function HomePage() {
 	const supabase = createClient();
 
@@ -25,23 +26,22 @@ export default async function HomePage() {
 	.eq('user_id', user.id)
 	.order('due_date', { ascending: false });
 
-	const { data: show_dates } = await supabase
+	const { data: settings } = await supabase
 	.from('settings')
-	.select('show_dates')
+	.select()
 	.eq('user_id', user.id)
 	.single();
-	console.log(show_dates);
+	// console.log(settings);
 
-	console.log(todos!.map((todo) => Object.assign(todo, show_dates)));
+	// console.log(todos!.map((todo) => Object.assign(todo, { show_dates: settings.show_dates })));
 
   return (
 		<Main>
 			<Suspense fallback={<LoadingWelcome />}>
-				<Welcome />
+				{settings.show_welcome && <Welcome />}
 			</Suspense>
-			{/* <pre>{JSON.stringify(show_dates, null, 2)}</pre> */}
 			<Suspense fallback={<LoadingTodos />}>
-				<Todos serverTodos={todos!.map((todo) => Object.assign(todo, show_dates))} />
+				<Todos serverTodos={todos!.map((todo) => Object.assign(todo, { show_dates: settings.show_dates }) as Todo)} />
 			</Suspense>
 			{todos && (
 				<BottomDrawer>

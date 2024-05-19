@@ -31,16 +31,12 @@ export default function Todos({
 		}, (payload) => setTodos(todos.filter((newTodo) => newTodo.id != payload.old.id)))
 		.on('postgres_changes', {
 			event: 'UPDATE', schema: 'public', table: 'todos',
-		}, (payload) => {
-			console.log(payload);
-			console.log((todos.map((newTodo) => newTodo.id == payload.old.id ? payload.new : newTodo)));
-			setTodos(todos.map((newTodo) => newTodo.id == payload.old.id ? payload.new as Todo : newTodo));
-		})
+		}, (payload) => setTodos(todos.map((newTodo) => newTodo.id == payload.old.id ? payload.new as Todo : newTodo)))
 		.on('postgres_changes', {
 			event: 'UPDATE',
 			schema: 'public',
 			table: 'settings',
-		}, (payload) => setTodos(todos!.map((todo) => Object.assign(todo, {show_dates: payload.new.show_dates as boolean}))))
+		}, (payload) => setTodos(todos!.map((todo) => Object.assign(todo, {show_dates: payload.new.show_dates as boolean}) as Todo)))
 		.subscribe();
 
 		return () => {
